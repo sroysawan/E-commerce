@@ -11,12 +11,12 @@ import UploadFile from "./uploadFile";
 import { useParams, useNavigate } from "react-router-dom";
 
 const initialState = {
-  title: "",
-  description: "",
-  price: "",
-  quantity: "",
-  categoryId: "",
-  images: [],
+    title: "",
+    description: "",
+    price: "",
+    quantity: "",
+    categoryId: '',
+    images: [],
 };
 const FormEditProduct = () => {
   const { id } = useParams();
@@ -54,7 +54,7 @@ const FormEditProduct = () => {
     e.preventDefault();
     try {
       const res = await updateProduct(token, id, form);
-      console.log(res);
+    //   console.log(res);
       toast.success(`Edit Product ${res.data.title} success`);
       navigate('/admin/product');
     } catch (error) {
