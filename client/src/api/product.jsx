@@ -32,6 +32,14 @@ export const updateProduct = async (token, id ,form) => {
     },
   });
 };
+export const deleteProduct = async (token, id) => {
+  //code body
+  return await axios.delete("http://localhost:5000/api/product/" + id, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 
 
