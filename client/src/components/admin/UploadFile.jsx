@@ -3,23 +3,25 @@ import { toast } from "react-toastify";
 import Resize from "react-image-file-resizer";
 import { removeFiles, uploadFiles } from "../../api/product";
 import useEcomStore from "../../store/ecom-store";
-
+import { Loader } from 'lucide-react';
 const UploadFile = ({ form, setForm }) => {
   const [isLoading, setIsLoading] = useState(false);
   const token = useEcomStore((state) => state.token);
+
   const handleOnchange = (e) => {
-    const files = e.target.files;
+    setIsLoading(true)
+    const files = e.target.files
     if (files) {
-      setIsLoading(true);
-      let allFiles = form.images; //[] empty array
+      setIsLoading(true)
+      let allFiles = form.images //[] empty array
       for (let i = 0; i < files.length; i++) {
         // console.log(files[i]);
 
         //validate
-        const file = files[i];
+        const file = files[i]
         if (!file.type.startsWith("image/")) {
-          toast.error(`File ${file.name} is not image`);
-          continue;
+          toast.error(`File ${file.name} is not image`)
+          continue
         }
         // Image Resize
         Resize.imageFileResizer(
@@ -36,17 +38,19 @@ const UploadFile = ({ form, setForm }) => {
             // console.log('data',data)
             uploadFiles(token, data)
               .then((res) => {
-                console.log(res);
+                console.log(res)
 
-                allFiles.push(res.data);
+                allFiles.push(res.data)
                 setForm({
                   ...form,
                   images: allFiles,
-                });
-                toast.success("Upload Image Success");
+                })
+                setIsLoading(false)
+                toast.success("Upload Image Success")
               })
               .catch((error) => {
-                console.log(error);
+                console.log(error)
+                setIsLoading(false)
               });
           },
           //ประเภทการแปลงรหัสไฟล์
@@ -77,12 +81,17 @@ const UploadFile = ({ form, setForm }) => {
         console.log(error)
     })
   }
+  // console.log(form)
 
 
-  console.log(form)
   return (
     <div className="my-4">
       <div className="flex mx-4 gap-4 my-4">
+      {
+        //ถ้าข้างหน้าเป็น false จะทำ isLoading && ถ้าเป็น true จะทำ loader
+        isLoading && <Loader className="animate-spin w-16 h-16"/>
+      }
+      
         {/*Show image upload*/}
        {
         form.images.map((item,index)=>
