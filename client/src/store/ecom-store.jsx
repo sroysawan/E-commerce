@@ -18,18 +18,18 @@ const ecomStore = (set) => ({
         })
         return res
     },
-    getCategory : async (token) => {
+    getCategory : async () => {
         try {
-          const res = await listCategory(token)
+          const res = await listCategory()
           set({
             categories: res.data
           })
         } catch (error) {}
       },
 
-    getProduct : async (token,count) => {
+    getProduct : async (count) => {
         try {
-          const res = await listProduct(token,count)
+          const res = await listProduct(count)
           set({
             products: res.data
           })
