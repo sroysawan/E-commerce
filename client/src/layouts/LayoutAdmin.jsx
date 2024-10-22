@@ -1,15 +1,20 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import SidebarAdmin from "../components/admin/SidebarAdmin";
+import HeaderAdmin from "../components/admin/HeaderAdmin";
 
 const LayoutAdmin = () => {
   return (
-    <div>
-      <h1>Side bar</h1>
-      <h1>Header</h1>
-      <hr />
-      <Outlet/>
+    <div className='flex h-screen'>
+      <SidebarAdmin />
+      <div className='flex-1 flex flex-col'>
+        <HeaderAdmin />
+        <main className='flex-1 p-6 bg-gray-300 overflow-y-auto'>
+          <Outlet />
+        </main>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default LayoutAdmin
+export default LayoutAdmin;
