@@ -77,3 +77,13 @@ export const removeFiles = async (token, public_id) => {
 
 
 
+//search
+
+export const searchFilters = async (arg) => {
+  //code body
+  return await axios.post("http://localhost:5000/api/search/filters",arg);
+};
+
+
+
+
