@@ -47,7 +47,7 @@ exports.adminCheck = async(req,res,next)=>{
                 message: 'Access Denied Admin Only'
             })
         }
-        console.log('admin check',adminUser)
+        // console.log('admin check',adminUser)
         next()
     } catch (error) {
         console.log(error)
