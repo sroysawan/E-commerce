@@ -68,7 +68,7 @@ const SearchCard = () => {
             getProduct()
         }
     }
-    console.log(categorySelected)
+    // console.log(categorySelected)
 
     //step 3 search price
     useEffect(()=>{
@@ -98,7 +98,7 @@ const SearchCard = () => {
                 <div>
                 {
                     categories.map((item,index)=>
-                        <div className='flex items-center gap-2 text-xl'>
+                        <div className='flex items-center gap-2 text-xl' key={index}>
                             <input 
                                 type="checkbox" 
                                 value={item.id}
@@ -123,7 +123,7 @@ const SearchCard = () => {
                         onChange={handelPrice}
                         range
                         min={0}
-                        max={100000}
+                        max={30000}
                         defaultValue={[0,30000]}
                     />
                 </div>
