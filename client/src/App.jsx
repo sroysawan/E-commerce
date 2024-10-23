@@ -11,7 +11,7 @@ const App = () => {
   return (
     //html
   <>
-    <ToastContainer pauseOnFocusLoss={false}/>
+    <ToastContainer pauseOnFocusLoss={false} newestOnTop/>
     <AppRoutes />
   </>
   )
