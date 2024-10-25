@@ -6,7 +6,7 @@ const { authCheck } = require('../middlewares/authCheck')
 const { changeOrderStatus,getOrderAdmin } = require('../controllers/admin')
 
 
-router.put('/user/order-status',authCheck,changeOrderStatus)
+router.put('/admin/order-status',authCheck,changeOrderStatus)
 router.post('/admin/orders',authCheck,getOrderAdmin)
 
 
