@@ -56,17 +56,33 @@ const ecomStore = (set,get) => ({
 
 
     //shop page global state
+    /* EP 19 have error เพิ่มตะกร้า แล้วกดเพิ่มสินค้า 
+    แล้วยังสามารถกดเพิ่มสินค้าอันเดิมซ้ำได้อีก มันต้องทำไม่ได้ เช่น กดเพิ่มจอ แล้วเพิ่มจำนวนจอ พอมากดเพิ่มจออีก กลับเพิ่มได้ แล้วเวลาเพิ่มลบก็หายไปทั้งคู่*/
     actionAddtoCart: (product)=>{
       try {
         //get = เข้าถึงตัวแปร 
         const carts = get().carts
 
+        // ตรวจสอบว่ามีสินค้าอยู่ใน carts หรือไม่
+        const existingProduct = carts.find(item => item.id === product.id);
+
+        if (existingProduct) {
+          // ถ้ามีสินค้าอยู่แล้ว ไม่ต้องเพิ่มสินค้าใหม่
+          console.log("สินค้านี้ถูกเพิ่มไปแล้ว");
+          return;
+        }
+
+        // ถ้าไม่มีสินค้าใน carts ให้เพิ่มสินค้าใหม่
         const updateCart = [...carts,{...product,count:1}]
+        console.log(updateCart);
+
         //step uniqe จะกดเพิ่มสินค้าซ้ำไม่ได้
-        const uniqe = _.unionWith(updateCart,_.isEqual)
-        //นำค่าใหม่เข้าไป
+        // const uniqe = _.unionWith(updateCart,_.isEqual)
+        // console.log(uniqe)
+
+         // อัปเดตค่า carts ใน state
         set({
-          carts: uniqe
+          carts: updateCart,
         })
       } catch (error) {
         console.log(error)
