@@ -7,7 +7,7 @@ const { changeOrderStatus,getOrderAdmin } = require('../controllers/admin')
 
 
 router.put('/admin/order-status',authCheck,changeOrderStatus)
-router.post('/admin/orders',authCheck,getOrderAdmin)
+router.get('/admin/orders',authCheck,getOrderAdmin)
 
 
 
