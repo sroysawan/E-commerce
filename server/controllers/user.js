@@ -9,6 +9,7 @@ exports.listUsers = async(req,res)=> {
                 role:true,
                 enabled:true,
                 address:true,
+                updatedAt:true
             }
         })
         res.json(users)
