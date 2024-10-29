@@ -12,7 +12,7 @@ const Shop = () => {
   },[])
 
   return (
-    <div className='flex'>
+    <div className='container mx-auto flex'>
       {/* SearBar  */}
       <div className='w-1/4 p-4 bg-gray-300 h-screen'>
         <SearchCard/>
@@ -25,8 +25,8 @@ const Shop = () => {
         <div className='flex flex-wrap gap-4'>
           {/* Product Cart */}
           {
-            products.map((item,index)=>
-              <ProductCard key={index} item={item}/>
+            products?.map((item,index)=>
+              <ProductCard key={index} item={item} />
             )
           }
           {/* Product Cart */}
