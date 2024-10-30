@@ -54,10 +54,6 @@ const ecomStore = (set,get) => ({
         }
       },
 
-
-    //shop page global state
-    /* EP 19 have error เพิ่มตะกร้า แล้วกดเพิ่มสินค้า 
-    แล้วยังสามารถกดเพิ่มสินค้าอันเดิมซ้ำได้อีก มันต้องทำไม่ได้ เช่น กดเพิ่มจอ แล้วเพิ่มจำนวนจอ พอมากดเพิ่มจออีก กลับเพิ่มได้ แล้วเวลาเพิ่มลบก็หายไปทั้งคู่*/
     actionAddtoCart: (product)=>{
       try {
         //get = เข้าถึงตัวแปร 
@@ -113,6 +109,10 @@ const ecomStore = (set,get) => ({
       return get().carts.reduce((total,item)=> {
         return total + item.price * item.count
       },0)
+    },
+
+    clearCart: ()=>{
+      set({ carts: []})
     }
 
 })
