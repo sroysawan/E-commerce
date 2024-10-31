@@ -6,6 +6,7 @@ exports.listUsers = async(req,res)=> {
             select:{
                 id:true,
                 email:true,
+                name:true,
                 role:true,
                 enabled:true,
                 address:true,
