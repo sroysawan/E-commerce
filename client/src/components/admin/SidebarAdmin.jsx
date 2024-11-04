@@ -1,11 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { ChartBarStacked, ChartNoAxesGantt, LayoutDashboard, LogOut, ShoppingCart } from "lucide-react";
+import { ChartBarStacked, LayoutDashboard, ListOrdered, LogOut, ShoppingCart, UserRoundCog } from "lucide-react";
 const SidebarAdmin = () => {
+
   return (
     <div className="bg-gray-700 text-gray-100 w-64 flex flex-col h-screen">
-      <div className="h-24 bg-gray-900 flex items-center justify-center text-lg font-bold">
-        Admin Panel
+      <div className="h-24 bg-gray-900 flex flex-col items-center justify-center text-lg font-bold">
+        <p>Admin Panel</p>
       </div>
 
       <nav className="flex-1 px-4 py-4 space-y-2">
@@ -29,7 +30,7 @@ const SidebarAdmin = () => {
               : "text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
           }
         >
-          <ChartNoAxesGantt className="mr-2" />
+          <UserRoundCog className="mr-2"/>
           Manage
         </NavLink>
         <NavLink
@@ -53,6 +54,18 @@ const SidebarAdmin = () => {
         >
           <ShoppingCart className="mr-2" />
           Product
+        </NavLink>
+
+        <NavLink
+          to={"orders"}
+          className={({isActive}) =>
+            isActive
+              ? "bg-gray-900 text-white px-4 py-2 rounded-md flex items-center"
+              : "text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
+          }
+        >
+          <ListOrdered className="mr-2"/>
+          Orders
         </NavLink>
       </nav>
 
