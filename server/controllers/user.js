@@ -333,13 +333,17 @@ exports.getOrder = async(req,res)=> {
             where:{
                 orderedById: Number(req.user.id)
             },
+            orderBy: {
+                createdAt: 'desc'
+            },
             include:{
                 products: {
                     include:{
                         product:true
                     }
                 }
-            }
+            },
+            
         })
         if(orders.length === 0){
             return res.status(400).json({
