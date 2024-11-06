@@ -4,6 +4,7 @@ import { persist,createJSONStorage } from 'zustand/middleware'
 
 import { listCategory } from '../api/category'
 import { listProduct,searchFilters } from '../api/product'
+import { getListAllUser } from '../api/admin'
 import _ from 'lodash'
 const ecomStore = (set,get) => ({
     //สร้าง state ประกอบไปด้วย key:value
@@ -12,6 +13,7 @@ const ecomStore = (set,get) => ({
     categories: [],
     products: [],
     carts:[],
+    alluser: [],
     
     actionLogout:()=>{
       set({
@@ -79,8 +81,11 @@ const ecomStore = (set,get) => ({
         }
 
         // ถ้าไม่มีสินค้าใน carts ให้เพิ่มสินค้าใหม่
-        const updateCart = [...carts,{...product,count:1}]
-        console.log(updateCart);
+        // const updateCart = [...carts,{...product,count:1}]  //สินค้าใหม่ถูกเพิ่มเข้าไปด้านล่างสุดของตะกร้า
+        const updateCart = [{...product,count:1},...carts] //สินค้าใหม่ถูกเพิ่มเข้าไปด้านบนสุดของตะกร้า
+
+        
+        console.log('เพิ่มสินค้าลงตะกร้า',updateCart);
 
         //step uniqe จะกดเพิ่มสินค้าซ้ำไม่ได้
         // const uniqe = _.unionWith(updateCart,_.isEqual)
@@ -88,7 +93,8 @@ const ecomStore = (set,get) => ({
 
          // อัปเดตค่า carts ใน state
         set({
-          carts: updateCart,
+          carts: updateCart
+
         })
       } catch (error) {
         console.log(error)
@@ -123,6 +129,17 @@ const ecomStore = (set,get) => ({
 
     clearCart: ()=>{
       set({ carts: []})
+    },
+
+    getAllUser: async(token) => {
+      try {
+        const res = await getListAllUser(token)
+        set({
+          alluser: res.data
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
 
 })
