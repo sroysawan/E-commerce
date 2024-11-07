@@ -1,11 +1,20 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import { ChartBarStacked, LayoutDashboard, ListOrdered, LogOut, ShoppingCart, UserRoundCog } from "lucide-react";
+import useEcomStore from "../../store/ecom-store";
 const SidebarAdmin = () => {
 
+  const actionLogout = useEcomStore((state) => state.actionLogout);
+  const navigate = useNavigate()
+
+  const logoutRedirect = () => {
+    actionLogout()
+    navigate('/login')
+  }
+
   return (
-    <div className="bg-gray-700 text-gray-100 w-64 flex flex-col h-screen">
-      <div className="h-24 bg-gray-900 flex flex-col items-center justify-center text-lg font-bold">
+    <div className="bg-gray-900 text-gray-100 w-72 flex flex-col h-screen ">
+      <div className="h-24 bg-gray-900 flex flex-col items-center justify-center text-2xl font-bold">
         <p>Admin Panel</p>
       </div>
 
@@ -15,8 +24,8 @@ const SidebarAdmin = () => {
           end
           className={({isActive}) =>
             isActive
-              ? "bg-gray-900 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
+              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
+              : "text-gray-300 px-4 py-2 hover:bg-gray-900 hover:text-white rounded flex items-center"
           }
         >
           <LayoutDashboard className="mr-2" />
@@ -26,8 +35,8 @@ const SidebarAdmin = () => {
           to={"manage"}
           className={({isActive}) =>
             isActive
-              ? "bg-gray-900 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
+              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
+              : "text-gray-300 px-4 py-2 hover:bg-gray-900 hover:text-white rounded flex items-center"
           }
         >
           <UserRoundCog className="mr-2"/>
@@ -37,8 +46,8 @@ const SidebarAdmin = () => {
           to={"category"}
           className={({isActive}) =>
             isActive
-              ? "bg-gray-900 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
+              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
+              : "text-gray-300 px-4 py-2 hover:bg-gray-900 hover:text-white rounded flex items-center"
           }
         >
           <ChartBarStacked className="mr-2" />
@@ -48,8 +57,8 @@ const SidebarAdmin = () => {
           to={"product"}
           className={({isActive}) =>
             isActive
-              ? "bg-gray-900 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
+              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
+              : "text-gray-300 px-4 py-2 hover:bg-gray-900 hover:text-white rounded flex items-center"
           }
         >
           <ShoppingCart className="mr-2" />
@@ -60,8 +69,8 @@ const SidebarAdmin = () => {
           to={"orders"}
           className={({isActive}) =>
             isActive
-              ? "bg-gray-900 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
+              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
+              : "text-gray-300 px-4 py-2 hover:bg-gray-900 hover:text-white rounded flex items-center"
           }
         >
           <ListOrdered className="mr-2"/>
@@ -71,11 +80,11 @@ const SidebarAdmin = () => {
 
       <footer>
       <NavLink
-        //   to={"product"}
+          onClick={logoutRedirect}
           className={({isActive}) =>
             isActive
-              ? "bg-gray-900 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
+              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
+              : "text-gray-300 px-4 py-2 hover:bg-gray-900 hover:text-white rounded flex items-center"
           }
         >
           <LogOut className="mr-2" />
