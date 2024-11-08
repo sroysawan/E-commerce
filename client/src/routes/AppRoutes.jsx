@@ -6,7 +6,7 @@ import Cart from "../pages/Cart";
 import History from "../pages/user/History";
 import CheckOut from "../pages/CheckOut";
 import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
+// import Register from "../pages/auth/Register";
 import Layout from "../layouts/Layout";
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import Dashboard from "../pages/admin/Dashboard";
@@ -20,6 +20,7 @@ import ProtectRouteAdmin from "./ProtectRouteAdmin";
 import EditProduct from "../pages/admin/EditProduct";
 import Payment from "../pages/user/Payment";
 import ManageOrder from "../pages/admin/ManageOrder";
+import NewRegister from "../pages/auth/NewRegister";
 
 const router = createBrowserRouter([
   //No login
@@ -32,7 +33,8 @@ const router = createBrowserRouter([
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <CheckOut /> },
       { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
+      // { path: "register", element: <Register /> }, //old
+      { path: "register", element: <NewRegister /> },
     ],
   },
   {
