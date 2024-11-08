@@ -85,5 +85,14 @@ export const searchFilters = async (arg) => {
 };
 
 
+//สินค้าขายดี
+export const listProductBy = async (sort,order,limit) => {
+  //code body
+  return await axios.post("http://localhost:5000/api/productby",{
+    sort,order,limit
+  });
+};
+
+
 
 
