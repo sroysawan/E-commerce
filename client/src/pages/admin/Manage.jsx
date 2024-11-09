@@ -1,9 +1,10 @@
 import React from 'react'
+import TableUser from '../../components/admin/TableUser'
 
 const Manage = () => {
   return (
     <div>
-      Manage
+      <TableUser />
     </div>
   )
 }
