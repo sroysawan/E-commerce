@@ -1,9 +1,10 @@
 import React from 'react'
+import FromDashboard from '../../components/admin/FromDashboard'
 
 const Dashboard = () => {
   return (
-    <div>
-      Dashboard
+    <div className='container mx-auto'>
+      <FromDashboard />
     </div>
   )
 }
