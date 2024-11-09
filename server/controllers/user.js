@@ -286,10 +286,6 @@ exports.saveOrder = async(req,res)=> {
                 currency: currency
             },
         })
-        // stripePaymentId String
-        // amount          Int
-        // status          String
-        // currency        String
 
         //update product
         const update = userCart.products.map((item)=>({
