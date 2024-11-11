@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //import controller
-const { create,list,read,update,remove,listby,searchFilters,createImages,removeImage } = require('../controllers/product')
+const { create,list,read,update,remove,listby,searchFilters,listByCategory,createImages,removeImage } = require('../controllers/product')
 const { authCheck,adminCheck} = require('../middlewares/authCheck')
 
 //@ENDPOINT http://localhost:5000/api/product
@@ -328,6 +328,73 @@ router.post('/productby',listby)
  *         description: เกิดข้อผิดพลาดจากเซิร์ฟเวอร์
  */
 router.post('/search/filters',searchFilters)
+
+
+
+/**
+ * @swagger
+ * /category/{name}:
+ *   get:
+ *     summary: "Get products by category"
+ *     description: "This API returns products based on the given category name."
+ *     tags: [Product]
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         required: true
+ *         description: The name of the category (should be in lowercase).
+ *         schema:
+ *           type: string
+ *           example: electronics
+ *     responses:
+ *       200:
+ *         description: "List of products in the category."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *                   price:
+ *                     type: number
+ *                     format: float
+ *                   description:
+ *                     type: string
+ *                   category:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       name:
+ *                         type: string
+ *       404:
+ *         description: "Category not found"
+ *       500:
+ *         description: "Server error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Server Error"
+ *                 error:
+ *                   type: string
+ *                   example: "Error message here"
+ */
+router.get('/category/:name',listByCategory)
+
+
+
+
+
+
 
 /**
  * @swagger
