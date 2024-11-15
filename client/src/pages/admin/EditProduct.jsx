@@ -3,7 +3,7 @@ import FormEditProduct from '../../components/admin/FormEditProduct'
 
 const EditProduct = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <FormEditProduct />
     </div>
   )

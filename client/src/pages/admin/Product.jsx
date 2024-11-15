@@ -3,7 +3,7 @@ import FormProduct from '../../components/admin/FormProduct'
 
 const Product = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <FormProduct/>
     </div>
   )

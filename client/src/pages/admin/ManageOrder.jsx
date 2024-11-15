@@ -3,7 +3,7 @@ import TableOrders from '../../components/admin/TableOrders'
 
 const ManageOrder = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <TableOrders />
     </div>
   )

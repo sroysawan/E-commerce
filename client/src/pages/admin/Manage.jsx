@@ -3,7 +3,7 @@ import TableUser from '../../components/admin/TableUser'
 
 const Manage = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <TableUser />
     </div>
   )
