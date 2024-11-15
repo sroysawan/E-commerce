@@ -5,7 +5,7 @@ exports.create = async(req,res)=> {
         const { name } = req.body
         const category = await prisma.category.create({
             data: {
-                name:name
+                name: name.toLowerCase(),
             }
         })
         // console.log(category)
@@ -19,7 +19,11 @@ exports.create = async(req,res)=> {
 
 exports.list = async(req,res)=> {
     try {
-        const category = await prisma.category.findMany()
+        const category = await prisma.category.findMany({
+            include: {
+                products:true
+            }
+        })
         res.send(category)
     } catch (error) {
         res.status(500).json({
