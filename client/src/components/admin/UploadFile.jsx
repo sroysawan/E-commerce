@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Resize from "react-image-file-resizer";
 import { removeFiles, uploadFiles } from "../../api/product";
@@ -6,6 +6,7 @@ import useEcomStore from "../../store/ecom-store";
 import { Loader } from 'lucide-react';
 const UploadFile = ({ form, setForm }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const fileInputRef = useRef(null); // เพิ่ม useRef
   const token = useEcomStore((state) => state.token);
 
   const handleOnchange = (e) => {
@@ -51,7 +52,13 @@ const UploadFile = ({ form, setForm }) => {
               .catch((error) => {
                 console.log(error)
                 setIsLoading(false)
-              });
+              })
+              .finally(() => {
+                setIsLoading(false);
+                if (fileInputRef.current) {
+                  fileInputRef.current.value = ""; // ล้างค่าของ input
+                }
+              })
           },
           //ประเภทการแปลงรหัสไฟล์
           "base64"
@@ -75,7 +82,10 @@ const UploadFile = ({ form, setForm }) => {
             ...form,
             images: filterImages
         })
-        toast.error(res.data);
+        toast.error(res.data)
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ""; // ล้างค่าของ input
+        }
     })
     .catch((error)=>{
         console.log(error)
@@ -109,9 +119,14 @@ const UploadFile = ({ form, setForm }) => {
         )
        }
       </div>
-
       <div>
-        <input onChange={handleOnchange} type="file" name="images" multiple />
+        <input 
+         ref={fileInputRef}
+          className="text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          onChange={handleOnchange} 
+          type="file" 
+          name="images" 
+          multiple />
       </div>
     </div>
   );
