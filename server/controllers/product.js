@@ -186,6 +186,7 @@ exports.listby = async (req, res) => {
   }
 };
 
+//search text
 const handleQuery = async (req, res, query) => {
   try {
     const products = await prisma.product.findMany({
@@ -206,7 +207,7 @@ const handleQuery = async (req, res, query) => {
     });
   }
 };
-
+//search price
 const handlePrice = async (req, res, priceRange) => {
   try {
     const products = await prisma.product.findMany({
@@ -228,7 +229,7 @@ const handlePrice = async (req, res, priceRange) => {
     });
   }
 };
-
+//search category
 const handleCategory = async (req, res, categoryId) => {
   try {
     const products = await prisma.product.findMany({
@@ -273,7 +274,39 @@ exports.searchFilters = async (req, res) => {
   }
 };
 
+// filter product category
+exports.listByCategory = async (req, res) => {
+  try {
+    const { name } = req.params;  // รับ category name จาก URL (ที่เป็น lowercase)
+console.log('name',name)
+    const category = await prisma.category.findFirst({
+      where: {
+        name: name.toLowerCase(), // แปลงให้เป็นตัวพิมพ์เล็กเพื่อให้ตรงกับฐานข้อมูล
+      },
+    });
+console.log('first category', category);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
 
+    const products = await prisma.product.findMany({
+      where: {
+        categoryId: category.id,  // ใช้ category id ที่ได้รับจากการค้นหา category
+      },
+      include: {
+        category: true,
+        images: true,
+      },
+    });
+console.log('products',products)
+    res.send(products);
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      error: error.message,
+    });
+  }
+};
 
 
 exports.createImages = async (req, res) => {
