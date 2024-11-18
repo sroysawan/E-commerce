@@ -1,8 +1,9 @@
 import axios from "axios";
 
-export const getOrdersAdmin = async (token) => {
+export const getOrdersAdmin = async (token, page = 1, limit = 10) => {
   //code body
   return await axios.get("http://localhost:5000/api/admin/orders", {
+    params: { page, limit }, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -25,15 +26,29 @@ export const changeOrderStatus = async (token, orderId, orderStatus) => {
   );
 };
 
+//old
+// export const getListAllUser = async (token) => {
+//   return await axios.get("http://localhost:5000/api/users", {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+// };
 
-export const getListAllUser = async (token) => {
-  //code body
+export const getListAllUser = async (token, page = 1, limit = 10) => {
   return await axios.get("http://localhost:5000/api/users", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+      params: { page, limit }, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
   });
 };
+
+// หากต้องการดึงข้อมูลทั้งหมด
+const getAllUsersWithoutPagination = async (token) => {
+  return await getListAllUser(token, 1, 0); // กำหนด limit เป็น 0 เพื่อดึงข้อมูลทั้งหมด
+};
+
 
 export const changeUserStatus = async (token,value) => {
   //code body
