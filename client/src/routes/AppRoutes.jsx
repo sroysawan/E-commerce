@@ -21,6 +21,7 @@ import EditProduct from "../pages/admin/EditProduct";
 import Payment from "../pages/user/Payment";
 import ManageOrder from "../pages/admin/ManageOrder";
 import NewRegister from "../pages/auth/NewRegister";
+import CategoryDetails from "../components/category/CategoryDetails";
 
 const router = createBrowserRouter([
   //No login
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       // { path: "register", element: <Register /> }, //old
       { path: "register", element: <NewRegister /> },
+      { path: "category/:id", element: <CategoryDetails /> },
     ],
   },
   {

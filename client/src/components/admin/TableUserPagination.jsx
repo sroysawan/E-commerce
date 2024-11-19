@@ -85,7 +85,7 @@ const TableUserPagination = () => {
             <th className="px-6 py-3 w-50">ชื่อ</th>
             <th className="px-6 py-3 w-56">วันที่สมัคร</th>
             <th className="px-6 py-3 w-56">วันที่แก้ไขล่าสุด</th>
-            <th className="px-6 py-3 w-44 text-center">สิทธิ์</th>
+            <th className="px-6 py-3 w-40 text-center">สิทธิ์</th>
             <th className="px-6 py-3 w-44 text-center">สถานะ</th>
             <th className="px-6 py-3 w-44 text-center">จัดการ</th>
           </tr>
@@ -103,7 +103,7 @@ const TableUserPagination = () => {
               <td className="px-6 py-3 w-50">{item.name}</td>
               <td className="px-6 py-3 w-56">{dateFormat(item.createdAt)}</td>
               <td className="px-6 py-3 w-56">{dateFormat(item.updatedAt)}</td>
-              <td className="px-6 py-3 w-44 text-center">
+              <td className="px-6 py-3 w-40 text-center">
                 <select
                   onChange={(e) =>
                     handelChangeUserRole(token, item.id, e.target.value)

@@ -42,7 +42,7 @@ const FormEditProduct = () => {
     }
   };
 
-  const handelOnChange = (e) => {
+  const handleOnChange = (e) => {
     // console.log(e.target.name, e.target.value);
     setForm({
       ...form,
@@ -50,7 +50,7 @@ const FormEditProduct = () => {
     });
   };
 
-  const handelSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await updateProduct(token, id, form);
@@ -64,66 +64,160 @@ const FormEditProduct = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-white shadow-md">
-      <form onSubmit={handelSubmit}>
-        <h1>Edit Product</h1>
-        <input
-          type="text"
-          value={form.title}
-          onChange={handelOnChange}
-          placeholder="Title"
-          name="title"
-          className="border"
-        />
-        <input
-          type="text"
-          value={form.description}
-          onChange={handelOnChange}
-          placeholder="Description"
-          name="description"
-          className="border"
-        />
-        <input
-          type="number"
-          value={form.price}
-          onChange={handelOnChange}
-          placeholder="Price"
-          name="price"
-          className="border"
-        />
-        <input
-          type="number"
-          value={form.quantity}
-          onChange={handelOnChange}
-          placeholder="Quantity"
-          name="quantity"
-          className="border"
-        />
-        <select
-          className="border"
-          name="categoryId"
-          onChange={handelOnChange}
-          required
-          value={form.categoryId}
-        >
-          <option value="" disabled>
-            Please Selected
-          </option>
-          {categories.map((item, index) => (
-            <option key={index} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
-        <hr />
-        {/* upload image */}
-        <UploadFile form={form} setForm={setForm} />
+    // <div className="container mx-auto p-4 bg-white shadow-md">
+    //   <form onSubmit={handelSubmit}>
+    //     <h1>Edit Product</h1>
+    //     <input
+    //       type="text"
+    //       value={form.title}
+    //       onChange={handelOnChange}
+    //       placeholder="Title"
+    //       name="title"
+    //       className="border"
+    //     />
+    //     <input
+    //       type="text"
+    //       value={form.description}
+    //       onChange={handelOnChange}
+    //       placeholder="Description"
+    //       name="description"
+    //       className="border"
+    //     />
+    //     <input
+    //       type="number"
+    //       value={form.price}
+    //       onChange={handelOnChange}
+    //       placeholder="Price"
+    //       name="price"
+    //       className="border"
+    //     />
+    //     <input
+    //       type="number"
+    //       value={form.quantity}
+    //       onChange={handelOnChange}
+    //       placeholder="Quantity"
+    //       name="quantity"
+    //       className="border"
+    //     />
+    //     <select
+    //       className="border"
+    //       name="categoryId"
+    //       onChange={handelOnChange}
+    //       required
+    //       value={form.categoryId}
+    //     >
+    //       <option value="" disabled>
+    //         Please Selected
+    //       </option>
+    //       {categories.map((item, index) => (
+    //         <option key={index} value={item.id}>
+    //           {item.name}
+    //         </option>
+    //       ))}
+    //     </select>
+    //     <hr />
+    //     {/* upload image */}
+    //     <UploadFile form={form} setForm={setForm} />
 
-        <button className="bg-blue-500">Update Product</button>
-      </form>
-      <hr />
-      <br />
-    </div>
+    //     <button className="bg-blue-500">Update Product</button>
+    //   </form>
+    //   <hr />
+    //   <br />
+    // </div>
+    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <h1 className="text-2xl font-bold text-gray-700">Edit Product</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-600">
+            Title
+          </label>
+          <input
+            type="text"
+            value={form.title}
+            onChange={handleOnChange}
+            name="title"
+            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            placeholder="Enter product title"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-600">
+            Price
+          </label>
+          <input
+            type="number"
+            value={form.price}
+            onChange={handleOnChange}
+            name="price"
+            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            placeholder="Enter product price"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-600">
+            Quantity
+          </label>
+          <input
+            type="number"
+            value={form.quantity}
+            onChange={handleOnChange}
+            name="quantity"
+            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            placeholder="Enter product quantity"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-600">
+            Category
+          </label>
+          <select
+            name="categoryId"
+            onChange={handleOnChange}
+            value={form.categoryId}
+            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            required
+          >
+            <option value="" disabled>
+              Select category
+            </option>
+            {categories.map((item, index) => (
+              <option key={index} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-600">
+          Description
+        </label>
+        <textarea
+          name="description"
+          value={form.description}
+          onChange={handleOnChange}
+          className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          rows="4"
+          placeholder="Enter product description"
+        ></textarea>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-600">
+          Images
+        </label>
+        <UploadFile form={form} setForm={setForm} />
+      </div>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+        >
+          Update Product
+        </button>
+      </div>
+    </form>
+  </div>
   );
 };
 

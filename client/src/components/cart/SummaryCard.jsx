@@ -7,6 +7,8 @@ import {numberFormat} from '../../utils/number'
 const SummaryCard = () => {
 
     const token = useEcomStore((state)=> state.token)
+    const carts = useEcomStore((state)=> state.carts)
+
     const [products,setProducts] = useState([])
     const [cartTotal,setCartTotal] = useState(0)
 
@@ -14,6 +16,11 @@ const SummaryCard = () => {
     const [addressSaved,setAddressSaved] = useState(false)
 
     const navigate = useNavigate()
+    useEffect(()=>{
+        if(carts.length === 0){
+            navigate('/shop')
+        }
+    },[])
     useEffect(()=>{
         handleGetUserCart(token)
     },[])
@@ -117,13 +124,30 @@ const SummaryCard = () => {
                 </div>
                 <hr />
                 <div>
-                    <button 
-                        className='bg-red-500 text-white p-2 w-full 
-                    rounded-md shadow-md hover:bg-red-800'
-                        onClick={handleGoToPayment}
+                {
+                products.length > 0 ? (
+                  // แสดงปุ่มสั่งซื้อที่ใช้งานได้
+                  <button 
+                  className='bg-red-500 text-white p-2 w-full 
+              rounded-md shadow-md hover:bg-red-800'
+                  onClick={handleGoToPayment}
+              >
+                  ดำเนินการชำระเงิน
+              </button>
+                ) : (
+                  // แสดงปุ่มสั่งซื้อที่ disabled
+ 
+                    <button
+                      className="bg-black text-white w-full rounded-lg py-2 shadow-md "
+                      disabled
                     >
-                        ดำเนินการชำระเงิน
+                      ไม่มีสินค้า
                     </button>
+
+                )
+      
+            }
+
                 </div>
             </div>
         </div>

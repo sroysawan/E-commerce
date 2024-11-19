@@ -39,24 +39,62 @@ exports.create = async (req, res) => {
   }
 };
 
+//old
+// exports.list = async (req, res) => {
+//   try {
+//     const { count } = req.params;
+//     const products = await prisma.product.findMany({
+//       take: parseInt(count),
+//       orderBy: { createdAt: "asc" },
+//       include: {
+//         category: true,
+//         images: true,
+//       },
+//     });
+//     res.send(products);
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Server Error",
+//     });
+//   }
+// };
+
 exports.list = async (req, res) => {
+  const { page, limit } = req.query;
+
+  const take = limit && parseInt(limit) > 0 ? parseInt(limit) : undefined;
+  const skip = take && page ? (parseInt(page) - 1) * take : undefined;
+
   try {
-    const { count } = req.params;
+    // ดึงข้อมูลสินค้า
     const products = await prisma.product.findMany({
-      take: parseInt(count),
+      skip: skip,
+      take: take,
       orderBy: { createdAt: "asc" },
       include: {
         category: true,
         images: true,
       },
     });
-    res.send(products);
+
+    // นับจำนวนสินค้าทั้งหมด
+    const totalProducts = await prisma.product.count();
+
+    // ส่งข้อมูลกลับ
+    res.json({
+      products,
+      total: totalProducts, // จำนวนสินค้าทั้งหมด
+      page: parseInt(page) || null,
+      limit: parseInt(limit) || null,
+    });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       message: "Server Error",
     });
   }
 };
+
 
 exports.read = async (req, res) => {
   try {

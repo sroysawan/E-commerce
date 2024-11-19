@@ -44,11 +44,26 @@ export const saveOrder = async (token,payload) => {
   };
 
 
-  export const historyUserCart = async (token) => {
-    //code body
+  //old
+  // export const historyUserCart = async (token) => {
+  //   //code body
+  //   return await axios.get("http://localhost:5000/api/user/order", {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  // };
+
+  export const historyUserCart = async (token, page = 1, limit = 5) => {
     return await axios.get("http://localhost:5000/api/user/order", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        params: { page, limit }, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     });
+  };
+  
+  // หากต้องการดึงข้อมูลทั้งหมด
+  const historyUserCartWithoutPagination = async (token) => {
+    return await historyUserCart(token, 1, 0); // กำหนด limit เป็น 0 เพื่อดึงข้อมูลทั้งหมด
   };

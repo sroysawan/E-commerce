@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-const { create,list,remove } = require('../controllers/category')
+const { create,list,update,remove } = require('../controllers/category')
 const { authCheck,adminCheck } = require('../middlewares/authCheck')
 // @ENDPOINT http://localhost:5000/api/category
 
@@ -77,6 +77,9 @@ router.post('/category',authCheck,adminCheck,create)
  *         description: เกิดข้อผิดพลาดจากเซิร์ฟเวอร์
  */
 router.get('/category',list)
+
+
+router.put('/category/:id',authCheck,adminCheck,update)
 
 /**
  * @swagger

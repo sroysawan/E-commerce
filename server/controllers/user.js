@@ -1,26 +1,73 @@
 const prisma = require('../config/prisma')
 
-exports.listUsers = async(req,res)=> {
+//old
+// exports.listUsers = async(req,res)=> {
+//     try {
+//         const users = await prisma.user.findMany({
+//             select:{
+//                 id:true,
+//                 email:true,
+//                 name:true,
+//                 role:true,
+//                 enabled:true,
+//                 address:true,
+//                 createdAt:true,
+//                 updatedAt:true
+//             }
+//         })
+//         res.json(users)
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             message: 'Server Error'
+//         })
+//     }
+// }
+
+
+exports.listUsers = async (req, res) => {
+    const { page, limit } = req.query;
+
+    // ตรวจสอบ limit, ถ้าไม่มีหรือเป็น 0 จะดึงข้อมูลทั้งหมด
+    const take = limit && parseInt(limit) > 0 ? parseInt(limit) : undefined;
+    const skip = take && page ? (parseInt(page) - 1) * take : undefined;
+
     try {
+        // ดึงข้อมูลจากฐานข้อมูล
         const users = await prisma.user.findMany({
-            select:{
-                id:true,
-                email:true,
-                name:true,
-                role:true,
-                enabled:true,
-                address:true,
-                updatedAt:true
-            }
-        })
-        res.json(users)
+            skip: skip,
+            take: take,
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                role: true,
+                enabled: true,
+                address: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+
+        // นับจำนวนผู้ใช้ทั้งหมด
+        const totalUsers = await prisma.user.count();
+
+        // ส่งข้อมูลกลับ
+        res.json({
+            users,
+            total: totalUsers,
+            page: parseInt(page) || null,
+            limit: parseInt(limit) || null,
+        });
     } catch (error) {
-        console.log(error)
+        console.error(error);
         res.status(500).json({
-            message: 'Server Error'
-        })
+            message: "Server Error",
+        });
     }
-}
+};
+
+
 exports.changeStatus = async(req,res)=> {
     try {
         const {id,enabled} = req.body
@@ -323,38 +370,96 @@ exports.saveOrder = async(req,res)=> {
         })
     }
 }
-exports.getOrder = async(req,res)=> {
-    try {
-        const orders = await prisma.order.findMany({
-            where:{
-                orderedById: Number(req.user.id)
-            },
-            orderBy: {
-                createdAt: 'desc'
-            },
-            include:{
-                products: {
-                    include:{
-                        product:true
-                    }
-                }
-            },
+//old
+// exports.getOrder = async(req,res)=> {
+//     try {
+//         const orders = await prisma.order.findMany({
+//             where:{
+//                 orderedById: Number(req.user.id)
+//             },
+//             orderBy: {
+//                 createdAt: 'desc'
+//             },
+//             include:{
+//                 products: {
+//                     include:{
+//                         product:true
+//                     }
+//                 }
+//             },
             
-        })
-        if(orders.length === 0){
-            return res.status(400).json({
-                ok:false,
-                message: 'No Orders'
-            })
+//         })
+//         if(orders.length === 0){
+//             return res.status(400).json({
+//                 ok:false,
+//                 message: 'No Orders'
+//             })
+//         }
+//         res.json({
+//             ok:true,
+//             orders
+//         })
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             message: 'Server Error'
+//         })
+//     }
+// }
+
+exports.getOrder = async (req, res) => {
+    const { page, limit } = req.query;
+
+    // ตรวจสอบ limit, ถ้าไม่มีหรือเป็น 0 จะดึงข้อมูลทั้งหมด
+    const take = limit && parseInt(limit) > 0 ? parseInt(limit) : undefined;
+    const skip = take && page ? (parseInt(page) - 1) * take : undefined;
+
+    try {
+ // ดึงข้อมูลคำสั่งซื้อ
+        const orders = await prisma.order.findMany({
+            where: {
+                orderedById: Number(req.user.id),
+            },
+            skip: skip,
+            take: take,
+            orderBy: {
+                createdAt: 'desc',
+            },
+            include: {
+                products: {
+                    include: {
+                        product: true,
+                    },
+                },
+            },
+        });
+
+        // นับจำนวนคำสั่งซื้อทั้งหมด
+        const totalOrdersHistory = await prisma.order.count({
+            where: {
+                orderedById: Number(req.user.id),
+            },
+        });
+
+        // ตรวจสอบว่าไม่มีคำสั่งซื้อ
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({
+                ok: false,
+                message: 'No Orders Found',
+            });
         }
+
+        // ส่งข้อมูลกลับ
         res.json({
-            ok:true,
-            orders
-        })
+            orders,
+            total: totalOrdersHistory,
+            page: parseInt(page) || null,
+            limit: parseInt(limit) || null,
+        });
     } catch (error) {
-        console.log(error)
+        console.error(error);
         res.status(500).json({
-            message: 'Server Error'
-        })
+            message: "Server Error",
+        });
     }
-}
+};

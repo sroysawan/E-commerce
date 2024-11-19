@@ -5,29 +5,19 @@ import { pieData, pieOptions } from "../../utils/pieCharts";
 import { barData, barOptions } from "../../utils/barCharts";
 import { getOrdersAdmin } from "../../api/admin";
 const AdminChart = () => {
-  //   const getProduct = useEcomStore((state) => state.getProduct);
-  //   const products = useEcomStore((state) => state.products);
+  const token = useEcomStore((state) => state.token);
   const getCategory = useEcomStore((state) => state.getCategory);
   const categories = useEcomStore((state) => state.categories);
-  const token = useEcomStore((state) => state.token);
-
-  const [orders, setOrders] = useState([]);
+  const getAllOrder = useEcomStore((state) => state.getAllOrder);
+  const orders = useEcomStore((state) => state.orders);
 
   useEffect(() => {
-    handleGetOrders(token);
+    getAllOrder(token);
+  }, [token, getAllOrder]);
+
+  useEffect(() => {
     getCategory();
   }, []);
-
-  const handleGetOrders = (token) => {
-    getOrdersAdmin(token)
-      .then((res) => {
-        console.log(res.data);
-        setOrders(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const labelBarArr = [
     "Jan",
@@ -62,22 +52,20 @@ const AdminChart = () => {
   }
 
   return (
-<div className="grid lg:grid-cols-[55%_40%] justify-between gap-6">
-  <div className="bg-white shadow-lg h-[400px] p-4 flex flex-col">
-    <p className="text-xl font-bold mb-4">ยอดขายรายเดือน (Monthly Sales)</p>
-    <div className="flex-grow flex justify-center items-center">
-      <Bar data={barData(labelBarArr, dataBarArr)} options={barOptions} />
+    <div className="grid lg:grid-cols-[55%_40%] justify-between gap-6">
+      <div className="bg-white shadow-lg h-[400px] p-4 flex flex-col">
+        <p className="text-xl font-bold mb-4">ยอดขายรายเดือน (Monthly Sales)</p>
+        <div className="flex-grow flex justify-center items-center">
+          <Bar data={barData(labelBarArr, dataBarArr)} options={barOptions} />
+        </div>
+      </div>
+      <div className="bg-white shadow-lg h-[400px] p-4 flex flex-col">
+        <p className="text-xl font-bold mb-4">หมวดหมู่สินค้าขายดี</p>
+        <div className="flex-grow flex justify-center items-center">
+          <Pie data={pieData(labelPieArr, dataPieArr)} options={pieOptions} />
+        </div>
+      </div>
     </div>
-  </div>
-  <div className="bg-white shadow-lg h-[400px] p-4 flex flex-col">
-    <p className="text-xl font-bold mb-4">หมวดหมู่สินค้าขายดี</p>
-    <div className="flex-grow flex justify-center items-center">
-      <Pie data={pieData(labelPieArr, dataPieArr)} options={pieOptions} />
-    </div>
-  </div>
-</div>
-
-
   );
 };
 

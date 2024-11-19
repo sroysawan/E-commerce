@@ -8,10 +8,26 @@ export const createProduct = async (token, form) => {
     },
   });
 };
-export const listProduct = async (count = 20) => {
+// export const listProduct = async (count = 20) => {
+//   //code body
+//   return await axios.get("http://localhost:5000/api/products/" + count);
+// };
+export const listProduct = async (token,page = 1, limit = 10) => {
   //code body
-  return await axios.get("http://localhost:5000/api/products/" + count);
+  return await axios.get("http://localhost:5000/api/products", {
+    params: { page, limit },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
+
+
+// หากต้องการดึงข้อมูลทั้งหมด
+const getProductWithoutPagination = async (token) => {
+  return await listProduct(1, 0); // กำหนด limit เป็น 0 เพื่อดึงข้อมูลทั้งหมด
+};
+
 export const readProduct = async (token, id) => {
   //code body
   return await axios.get("http://localhost:5000/api/product/" + id, {

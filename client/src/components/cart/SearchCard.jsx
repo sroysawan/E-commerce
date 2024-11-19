@@ -81,27 +81,85 @@ const SearchCard = () => {
     }, 300);
   };
   return (
-    <div className="space-y-4">
-      <h1 className="mb-4 text-2xl font-bold">ค้นหาสินค้า</h1>
-      {/* Search By Text  */}
-      <input
-        onChange={(e) => setText(e.target.value)}
-        type="text"
-        placeholder="ค้นหาสินค้า"
-        // className="border rounded-md w-full mb-4 px-2"
-        className="w-full h-12 py-1 rounded-lg border-gray-200 p-4 text-md shadow-md "
-      />
-      <hr />
+    <div className="sticky top-24 grid gap-y-5 grid-rows-[15%_30%_15%] h-[87vh]">
+      <div className="bg-gray-300 shadow-lg p-4 rounded-xl">
+        <div className="space-y-2">
+          <h1 className="text-xl font-bold">ค้นหาสินค้า</h1>
+          {/* Search By Text  */}
+          <div className="relative">
+            <input
+              onChange={(e) => setText(e.target.value)}
+              type="text"
+              placeholder="ค้นหาสินค้า"
+              // className="border rounded-md w-full mb-4 px-2"
+              className="w-full h-10 py-1 rounded-lg border border-black p-4 text-md shadow-md hover:border-black"
+            />
+            <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="bg-gray-300 shadow-lg p-4 rounded-xl">
+        <div className="space-y-2">
+          <h1 className="text-xl font-bold">หมวดหมู่สินค้า</h1>
+          <div>
+            {categories.map((item, index) => (
+              <div key={index} className="flex items-center gap-2 text-lg">
+                <input
+                  type="checkbox"
+                  className="size-4 rounded border-gray-300 hover:cursor-pointer"
+                  value={item.id}
+                  onChange={handleCheck}
+                />
+                <label>{item.name}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-gray-300 shadow-lg p-4 rounded-xl">
+        <div className="space-y-2">
+          <h1 className="text-xl font-bold">ค้นหาราคา</h1>
+          <div>
+            <div className="flex justify-between">
+              <span>Min : {numberFormat(price[0])}</span>
+              <span>Max : {numberFormat(price[1])}</span>
+            </div>
+            <Slider
+              onChange={handelPrice}
+              range
+              min={0}
+              max={30000}
+              defaultValue={[0, 30000]}
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Search By Category  */}
-      <div>
-        <h1 className="mb-4 text-2xl font-bold">หมวดหมู่สินค้า</h1>
+      {/* <div className="space-y-2">
+        <h1 className="text-xl font-bold">หมวดหมู่สินค้า</h1>
         <div>
           {categories.map((item, index) => (
-            <div className="flex items-center gap-2 text-xl" key={index}>
+            <div key={index} className="flex items-center gap-2 text-lg" >
               <input
                 type="checkbox"
-                className="size-4 rounded border-gray-300"
+                className="size-4 rounded border-gray-300 hover:cursor-pointer"
                 value={item.id}
                 onChange={handleCheck}
               />
@@ -111,10 +169,10 @@ const SearchCard = () => {
           ))}
         </div>
       </div>
-      <hr />
+      <hr /> */}
       {/* Search Price  */}
-      <div>
-        <h1>ค้นหาราคา</h1>
+      {/* <div className="space-y-2">
+        <h1 className="text-xl font-bold">ค้นหาราคา</h1>
         <div>
           <div className="flex justify-between">
             <span>Min : {numberFormat(price[0])}</span>
@@ -128,7 +186,7 @@ const SearchCard = () => {
             defaultValue={[0, 30000]}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
