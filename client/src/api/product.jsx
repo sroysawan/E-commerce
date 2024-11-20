@@ -28,6 +28,11 @@ const getProductWithoutPagination = async (token) => {
   return await listProduct(1, 0); // กำหนด limit เป็น 0 เพื่อดึงข้อมูลทั้งหมด
 };
 
+export const listDetailProduct = async (id) => {
+  //code body
+  return await axios.get("http://localhost:5000/api/product/" + id);
+};
+
 export const readProduct = async (token, id) => {
   //code body
   return await axios.get("http://localhost:5000/api/product/" + id, {
