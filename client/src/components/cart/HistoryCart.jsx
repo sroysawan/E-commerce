@@ -32,12 +32,13 @@ const HistoryCart = () => {
   };
   // การคำนวณจำนวนหน้า
   const totalPages = Math.ceil(totalOrders / limitOrders);
+
   const handlePageChange = (event, value) => {
     setPageOrders(value);
   };
 
   const handleLimitChange = (e) => {
-    const newLimit = parseInt(e.target.value, 5);
+    const newLimit = parseInt(e.target.value, 10);
     setLimitOrders(newLimit === totalOrders ? totalOrders : newLimit); // ถ้าเลือก All ให้ใช้ totalUsers
     setPageOrders(1); // รีเซ็ตไปหน้าแรก
   };
@@ -56,7 +57,7 @@ const HistoryCart = () => {
   return (
     <div className="container mx-auto mt-8 mb-8">
       <h1 className="text-2xl font-bold">ประวัติการสั่งซื้อ</h1>
-      <div className="mb-4">
+      <div className="bg-white rounded-lg shadow-md shadow-black p-4 my-4">
         <EntriesPerPageSelect
           limit={limitOrders}
           total={totalOrders}
@@ -108,21 +109,20 @@ const HistoryCart = () => {
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {item.products?.map((product, index) => {
-                      //   console.log(product);
                       return (
                         <tr key={index}>
                           <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                             {product.product.title}
                           </td>
                           <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                            {numberFormat(product.product.price)}
+                            {numberFormat(product.price)}
                           </td>
                           <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                             {product.count}
                           </td>
                           <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                             {numberFormat(
-                              product.count * product.product.price
+                              product.count * product.price
                             )}
                           </td>
                         </tr>
