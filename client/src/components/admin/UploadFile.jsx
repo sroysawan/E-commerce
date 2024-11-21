@@ -4,9 +4,9 @@ import Resize from "react-image-file-resizer";
 import { removeFiles, uploadFiles } from "../../api/product";
 import useEcomStore from "../../store/ecom-store";
 import { Loader } from 'lucide-react';
-const UploadFile = ({ form, setForm }) => {
+const UploadFile = ({ form, setForm , fileInputRef }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const fileInputRef = useRef(null); // เพิ่ม useRef
+  // const fileInputRef = useRef(null); // เพิ่ม useRef
   const token = useEcomStore((state) => state.token);
 
   const handleOnchange = (e) => {
