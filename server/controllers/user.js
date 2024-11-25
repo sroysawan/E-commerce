@@ -24,83 +24,25 @@ const prisma = require("../config/prisma");
 //     }
 // }
 
-// exports.listUsers = async (req, res) => {
-//   const { page, limit, sort, query } = req.query;
-//   // const { query } = req.body
-
-//   // ตรวจสอบ limit, ถ้าไม่มีหรือเป็น 0 จะดึงข้อมูลทั้งหมด
-//   const take = limit && parseInt(limit) > 0 ? parseInt(limit) : undefined;
-//   const skip = take && page ? (parseInt(page) - 1) * take : undefined;
-//   const orderBy = sort === "asc" ? { createdAt: "asc" } : { createdAt: "desc" }; // การจัดเรียง
-
-//   try {
-//     // ดึงข้อมูลจากฐานข้อมูล
-//     const users = await prisma.user.findMany({
-//       skip: skip,
-//       take: take,
-//       orderBy: orderBy,
-
-//       select: {
-//         id: true,
-//         email: true,
-//         name: true,
-//         role: true,
-//         enabled: true,
-//         address: true,
-//         createdAt: true,
-//         updatedAt: true,
-//       },
-//     });
-
-//     // นับจำนวนผู้ใช้ทั้งหมด
-//     const totalUsers = await prisma.user.count();
-
-//     const handleQuery = await prisma.user.findMany({
-//       where: {
-//         OR: [
-//           {
-//             email: {
-//               contains: query,
-//             },
-//           },
-//           {
-//             category: {
-//               name: {
-//                 contains: query,
-//               },
-//             },
-//           },
-//         ],
-//       }
-//     })
-
-//     if (query) {
-//       console.log("have query-->", query);
-//       await handleQuery(req, res, query);
-//     }
-
-//     // ส่งข้อมูลกลับ
-//     res.json({
-//       users,
-//       total: totalUsers,
-//       page: parseInt(page) || null,
-//       limit: parseInt(limit) || null,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({
-//       message: "Server Error",
-//     });
-//   }
-// };
 
 exports.listUsers = async (req, res) => {
-  const { page, limit, sort, query = "" } = req.query;
+  const { page, limit, sortBy = "createdAt", sortOrder = "asc", query = "" } = req.query;
 
   // กำหนดค่าเริ่มต้น
   const take = limit && parseInt(limit) > 0 ? parseInt(limit) : undefined;
   const skip = take && page ? (parseInt(page) - 1) * take : undefined;
-  const orderBy = sort === "asc" ? { createdAt: "asc" } : { createdAt: "desc" }; // การจัดเรียง
+
+  // แปลง sortBy และ sortOrder เป็น Array
+  const sortByFields = sortBy.split(","); // เช่น "createdAt,enabled"
+  const sortOrders = sortOrder.split(","); // เช่น "asc,desc"
+
+  // สร้าง orderBy Array
+  const orderBy =
+  sortOrder !== "default"
+    ? sortByFields.map((field, index) => ({
+        [field]: sortOrders[index] || "asc",
+      }))
+    : undefined; // ถ้าเป็น default ไม่ต้อง Sort
 
   try {
     // เงื่อนไขการค้นหา
@@ -119,7 +61,7 @@ exports.listUsers = async (req, res) => {
     const users = await prisma.user.findMany({
       skip: skip,
       take: take,
-      orderBy: orderBy,
+      orderBy: orderBy, // ใช้ orderBy Array
       where: where, // ใช้เงื่อนไขการค้นหา
       select: {
         id: true,
