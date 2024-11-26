@@ -34,17 +34,42 @@ exports.create = async (req, res) => {
 // }
 
 exports.list = async (req, res) => {
-  const { page, limit } = req.query;
+  const {
+    page,
+    limit,
+    sortBy = "createdAt",
+    sortOrder = "asc",
+    query = "",
+  } = req.query;
 
   // ตรวจสอบ limit, ถ้าไม่มีหรือเป็น 0 จะดึงข้อมูลทั้งหมด
   const take = limit && parseInt(limit) > 0 ? parseInt(limit) : undefined;
   const skip = take && page ? (parseInt(page) - 1) * take : undefined;
 
+  // แปลง sortBy และ sortOrder เป็น Array
+  const sortByFields = sortBy.split(","); // เช่น "createdAt,enabled"
+  const sortOrders = sortOrder.split(","); // เช่น "asc,desc"
+
+  // สร้าง orderBy Array
+  const orderBy =
+    sortOrder !== "default"
+      ? sortByFields.map((field, index) => ({
+          [field]: sortOrders[index] || "asc",
+        }))
+      : undefined; // ถ้าเป็น default ไม่ต้อง Sort
   try {
+    // เงื่อนไขการค้นหา
+    const where = query
+      ? {
+          OR: [{ name: { contains: query } }],
+        }
+      : {}; // เปลี่ยน undefined เป็น {} เพื่อป้องกันข้อผิดพลาด
     // ดึงข้อมูลจากฐานข้อมูล
     const category = await prisma.category.findMany({
       skip: skip,
       take: take,
+      orderBy: orderBy, // ใช้ orderBy Array
+      where: where, // ใช้เงื่อนไขการค้นหา
       include: {
         products: true,
       },
