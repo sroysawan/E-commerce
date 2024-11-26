@@ -35,9 +35,9 @@ export const changeOrderStatus = async (token, orderId, orderStatus) => {
 //   });
 // };
 
-export const getListAllUser = async (token, page = 1, limit = 10) => {
+export const getListAllUser = async (token, page = 1, limit = 10, sortBy = "createdAt", sortOrder = "asc" , searchQuery = "") => {
   return await axios.get("http://localhost:5000/api/users", {
-      params: { page, limit }, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
+      params: { page, limit, sortBy, sortOrder, query: searchQuery }, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
       headers: {
           Authorization: `Bearer ${token}`,
       },
