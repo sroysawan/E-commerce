@@ -13,10 +13,10 @@ export const createCategory = async (token, form) => {
 //   return await axios.get('http://localhost:5000/api/category');
 // };
 
-export const listCategory = async (token,page = 1, limit = 10) => {
+export const listCategory = async (token,page = 1, limit = 10, sortBy = "createdAt", sortOrder = "asc" , searchQuery = "") => {
   //code body
   return await axios.get("http://localhost:5000/api/category", {
-    params: { page, limit },
+    params: { page, limit,sortBy, sortOrder, query: searchQuery },
     headers: {
       Authorization: `Bearer ${token}`,
     },
