@@ -30,7 +30,7 @@ const HeaderAdmin = () => {
     navigate('/login')
   }
   return (
-    <header className='bg-white h-20 flex items-center px-6 justify-end'>
+    <header className='bg-white h-16 flex items-center px-6 justify-end'>
       <div className="container mx-auto flex h-16 items-center justify-end gap-8">
             <div className="sm:flex sm:gap-4">
               {user && (
