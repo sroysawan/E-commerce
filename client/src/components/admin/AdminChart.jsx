@@ -52,7 +52,7 @@ const AdminChart = () => {
   }
 
   return (
-    <div className="grid lg:grid-cols-[55%_40%] justify-between gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-[55%_40%] justify-between gap-6">
       <div className="bg-white shadow-lg h-[400px] p-4 flex flex-col">
         <p className="text-xl font-bold mb-4">ยอดขายรายเดือน (Monthly Sales)</p>
         <div className="flex-grow flex justify-center items-center">
