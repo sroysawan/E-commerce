@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getOrdersAdmin = async (token, page = 1, limit = 10) => {
+export const getOrdersAdmin = async (token, page = 1, limit = 10, sortBy = "createdAt", sortOrder = "asc" , searchQuery = "") => {
   //code body
   return await axios.get("http://localhost:5000/api/admin/orders", {
-    params: { page, limit }, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
+    params: { page, limit,sortBy, sortOrder, query: searchQuery }, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -26,14 +26,6 @@ export const changeOrderStatus = async (token, orderId, orderStatus) => {
   );
 };
 
-//old
-// export const getListAllUser = async (token) => {
-//   return await axios.get("http://localhost:5000/api/users", {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-// };
 
 export const getListAllUser = async (token, page = 1, limit = 10, sortBy = "createdAt", sortOrder = "asc" , searchQuery = "") => {
   return await axios.get("http://localhost:5000/api/users", {
