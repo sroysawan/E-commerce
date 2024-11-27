@@ -36,7 +36,7 @@ const TableUserPagination = () => {
   const handlePageChange = (event, value) => {
     // value คือหมายเลขหน้าที่เลือก
     setPageUser(value);
-    getAllUserPagination(token, pageUser, limitUser, sortUser);
+    getAllUserPagination(token, pageUser, limitUser, sortOrder);
   };
 
   // การเปลี่ยนจำนวนรายการที่แสดงในแต่ละหน้า
@@ -86,7 +86,6 @@ const TableUserPagination = () => {
           sortOrder,
           searchQuery
         );
-
       })
       .catch((error) => {
         console.log(error);
@@ -118,11 +117,10 @@ const TableUserPagination = () => {
   };
 
   return (
-    <div className="overflow-x-auto p-5 bg-white shadow-lg ">
+    <div className="overflow-x-auto p-5 bg-white shadow-lg">
       <div className="flex justify-between items-center mb-3">
         <h1 className="font-bold text-2xl">User Management</h1>
         <h1 className="font-bold text-xl">ทั้งหมด {totalUsers} รายการ</h1>
-        {/* <SearchTable handleSearch={handleSearchChange} /> */}
       </div>
       <div className="mb-3 flex justify-between">
         <EntriesPerPageSelect
@@ -133,11 +131,11 @@ const TableUserPagination = () => {
         />
         <SearchTable handleSearch={handleSearchChange} />
       </div>
-      <table className="min-w-full  border-collapse bg-white text-sm text-left shadow-md rounded-md">
-        <thead className="bg-blue-600 text-white uppercase text-base font-medium">
+      <table className="min-w-full  border-collapse bg-white shadow-md ">
+        <thead className="bg-blue-600 text-white text-base font-medium">
           <tr>
-            <th className="px-6 py-3 w-40 text-center">ลำดับ</th>
-            <th className="px-6 py-3 w-52">
+            <th className="px-6 py-3 w-36 text-center">ลำดับ</th>
+            <th className="px-6 py-3 w-56">
               <div className="flex gap-2 items-center justify-start">
                 Email
                 <SortTable
@@ -211,16 +209,16 @@ const TableUserPagination = () => {
             allUsers?.map((item, index) => (
               <tr
                 key={item.id}
-                className="odd:bg-gray-100 even:bg-white hover:bg-gray-100 transition duration-200"
+                className="odd:bg-gray-100 even:bg-white hover:bg-gray-100 text-sm transition duration-200"
               >
-                <td className="px-6 py-3 w-40 text-center">
+                <td className="px-6 py-3 text-center">
                   {index + 1 + (page - 1) * limit}
                 </td>
-                <td className="px-6 py-3 w-52">{item.email}</td>
-                <td className="px-6 py-3 w-50">{item.name}</td>
-                <td className="px-6 py-3 w-56">{dateFormat(item.createdAt)}</td>
-                <td className="px-6 py-3 w-56">{dateFormat(item.updatedAt)}</td>
-                <td className="px-6 py-3 w-40 text-center">
+                <td className="px-6 py-3">{item.email}</td>
+                <td className="px-6 py-3">{item.name}</td>
+                <td className="px-6 py-3">{dateFormat(item.createdAt)}</td>
+                <td className="px-6 py-3">{dateFormat(item.updatedAt)}</td>
+                <td className="px-6 py-3 text-center">
                   <select
                     onChange={(e) =>
                       handelChangeUserRole(token, item.id, e.target.value)
@@ -233,13 +231,13 @@ const TableUserPagination = () => {
                   </select>
                 </td>
                 <td
-                  className={`px-6 py-3 text-center font-bold w-44 ${
+                  className={`px-6 py-3 text-center font-bold ${
                     item.enabled ? "text-green-600" : "text-red-600"
                   }`}
                 >
                   {item.enabled ? "Active" : "Inactive"}
                 </td>
-                <td className="px-6 py-3 w-44 text-center">
+                <td className="px-6 py-3 text-center">
                   <button
                     className={`px-4 py-2 rounded-md text-white shadow-md transform transition-transform duration-200 ${
                       item.enabled
