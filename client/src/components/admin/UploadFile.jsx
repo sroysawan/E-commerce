@@ -111,7 +111,7 @@ const UploadFile = ({ form, setForm , fileInputRef }) => {
                     className="w-24 h-24 hover:scale-105"
                 />
                 <span 
-                    className="absolute top-0 right-0 bg-red-700 p-1 rounded"
+                    className="absolute top-0 right-0 bg-red-700 px-2 py-0.5 rounded-full text-sm cursor-pointer hover:text-white"
                     onClick={()=>handleDelete(item.public_id)}
                 >X
                 </span>
