@@ -8,14 +8,12 @@ export const createProduct = async (token, form) => {
     },
   });
 };
-// export const listProduct = async (count = 20) => {
-//   //code body
-//   return await axios.get("http://localhost:5000/api/products/" + count);
-// };
-export const listProduct = async (token,page = 1, limit = 10) => {
+
+
+export const listProduct = async (token,page = 1, limit = 10, sortBy = "createdAt", sortOrder = "asc" , searchQuery = "" ) => {
   //code body
   return await axios.get("http://localhost:5000/api/products", {
-    params: { page, limit },
+    params: { page, limit, sortBy, sortOrder, query: searchQuery },
     headers: {
       Authorization: `Bearer ${token}`,
     },
