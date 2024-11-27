@@ -68,7 +68,7 @@ export default function CheckoutForm() {
   };
 
   return (
-    <>
+    <div className="mx-6 mt-4">
       <form
         className="stripe-form space-y-6"
         id="payment-form"
@@ -91,6 +91,6 @@ export default function CheckoutForm() {
         {/* Show any error or success messages */}
         {message && <div id="payment-message">{message}</div>}
       </form>
-    </>
+    </div>
   );
 }
