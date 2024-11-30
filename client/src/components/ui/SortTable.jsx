@@ -17,7 +17,7 @@ const SortTable = ({ toggleSort, data, sortOrder, sortBy }) => {
           <ArrowUpZA size={15} />
         </span>
       )}
-      {sortOrder === "default" && (
+      {sortOrder === "firstToggle" && (
         <span>
           <ArrowUpDown size={15} />
         </span>
