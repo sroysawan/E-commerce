@@ -1,9 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useEcomStore from "../store/ecom-store";
-import { History, LogOut, Menu, User, UserRoundPen, X } from "lucide-react";
+import {
+  History,
+  LogOut,
+  Menu,
+  ShoppingBasket,
+  User,
+  UserRoundPen,
+  X,
+} from "lucide-react";
 import Icon from "../assets/icon.png";
 import Badge from "@mui/material/Badge";
+import SearchText from "./ui/SearchText";
 const MainNav = () => {
   const carts = useEcomStore((state) => state.carts);
   const user = useEcomStore((state) => state.user);
@@ -35,8 +44,15 @@ const MainNav = () => {
     setIsMenuOpen(false);
   };
 
+    // Define the handleSearch function
+    const handleSearch = (query) => {
+      if (query.trim() !== "") {
+        navigate(`/product?query=${encodeURIComponent(query)}`);
+      }
+    };
+
   return (
-    <header className="bg-white shadow-lg sticky top-0 z-10">
+    <header className="bg-white shadow-lg sticky top-0 z-50">
       <div className="mx-2 md:container md:mx-auto flex h-20 items-center gap-8">
         <Link
           to={"/"}
@@ -74,42 +90,31 @@ const MainNav = () => {
                   Shop
                 </NavLink>
               </li>
-              <li>
+            </ul>
+            <div className="flex items-center">
+              <SearchText onSearch={handleSearch}/>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="relative flex items-center justify-center">
                 <NavLink
                   to={"/cart"}
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-red-500 font-semibold"
-                      : "text-gray-500 transition hover:text-red-400"
+                    `w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 transition ${
+                      isActive
+                        ? "text-red-500"
+                        : "hover:text-red-500"
+                    }`
                   }
                 >
-                  Cart
+                  <ShoppingBasket />
                   {carts.length > 0 && (
-                    <span className="absolute top-2 rounded-full px-3 text-center bg-red-100 text-red-700">
+                    <span className="absolute -top-1 -right-1 rounded-full bg-red-500 text-white text-xs px-1.5 py-0.5">
                       {carts.length}
                     </span>
                   )}
                 </NavLink>
-              </li>
-              {/* <li>
-                <NavLink
-                  to={"/cart"}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-red-500 font-semibold"
-                      : "text-gray-500 transition hover:text-red-400"
-                  }
-                >
-                  <Badge
-                    badgeContent={carts.length} // จำนวนสินค้าที่จะแสดง
-                    color="primary" // เปลี่ยนสีป้าย (ใช้ "error" หรือสีอื่นแทนได้)
-                  >
-                    Cart
-                  </Badge>
-                </NavLink>
-              </li> */}
-            </ul>
-            <div className="flex items-center gap-4">
+              </div>
+
               <div className="sm:flex sm:gap-4">
                 {user ? (
                   <div className="relative" ref={dropdownRef}>
@@ -124,7 +129,7 @@ const MainNav = () => {
                             <User />
                           </div>
                           <span className=" text-red-500 transition hover:text-red-700">
-                            {user.name}
+                            {user.name.substring(0, user.name.indexOf(' ')) || user.name}
                           </span>
                         </div>
                       </button>
@@ -218,11 +223,13 @@ const MainNav = () => {
       {isMenuOpen && (
         <div className="absolute top-20 left-0 w-full bg-white shadow-lg z-20 md:hidden">
           <ul className="flex flex-col items-center gap-4 py-4">
+            {user &&
             <li>
               <span className=" text-red-500 transition hover:text-red-700 text-xl">
                 {user.name}
               </span>
             </li>
+            }
             <li>
               <NavLink
                 to={"/"}
@@ -267,6 +274,19 @@ const MainNav = () => {
                     History
                   </NavLink>
                 </li>
+                {user.role === "admin" && (
+                          <li>
+                            <NavLink
+                              to={"/admin"}
+                              onClick={() => setIsMenuOpen(false)}
+                              className="text-gray-600 hover:text-red-500"
+                            >
+
+                              Dashboard Admin
+                            </NavLink>
+                          </li>
+                        )}
+
                 <li>
                   <button
                     onClick={logoutRedirect}
