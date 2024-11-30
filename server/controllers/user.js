@@ -1,29 +1,5 @@
 const prisma = require("../config/prisma");
 
-//old
-// exports.listUsers = async(req,res)=> {
-//     try {
-//         const users = await prisma.user.findMany({
-//             select:{
-//                 id:true,
-//                 email:true,
-//                 name:true,
-//                 role:true,
-//                 enabled:true,
-//                 address:true,
-//                 createdAt:true,
-//                 updatedAt:true
-//             }
-//         })
-//         res.json(users)
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).json({
-//             message: 'Server Error'
-//         })
-//     }
-// }
-
 
 exports.listUsers = async (req, res) => {
   const { page, limit, sortBy = "createdAt", sortOrder = "asc", query = "" } = req.query;
@@ -38,11 +14,19 @@ exports.listUsers = async (req, res) => {
 
   // สร้าง orderBy Array
   const orderBy =
-  sortOrder !== "default"
-    ? sortByFields.map((field, index) => ({
-        [field]: sortOrders[index] || "asc",
-      }))
-    : undefined; // ถ้าเป็น default ไม่ต้อง Sort
+    sortOrder !== "firstToggle"
+      ? sortByFields.map((field, index) => ({
+          [field]: sortOrders[index] || "asc",
+        }))
+      : undefined; // ถ้าเป็น default ไม่ต้อง Sort
+// const orderBy =
+//   sortBy !== "default"
+//     ? sortByFields.map((field, index) => ({
+//         [field]: sortOrders[index] || "asc",
+//       }))
+//     : [{ createdAt: "asc" }]; // ตั้งค่า default เป็น createdAt
+
+
 
   try {
     // เงื่อนไขการค้นหา
