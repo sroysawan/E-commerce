@@ -2,7 +2,7 @@ import React from 'react'
 import { Pagination } from "@mui/material";
 const PaginationTable = ({ totalPages, currentPage, onPageChange }) => {
   return (
-    <div className="flex justify-center mt-4 sha">
+    <div className="flex justify-center">
     <Pagination
       count={totalPages} // จำนวนหน้าทั้งหมด
       page={currentPage} // หน้าปัจจุบัน
