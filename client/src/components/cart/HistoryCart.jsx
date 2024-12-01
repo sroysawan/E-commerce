@@ -57,13 +57,17 @@ const HistoryCart = () => {
   return (
     <div className="container mx-auto mt-8 mb-8">
       <h1 className="text-2xl font-bold">ประวัติการสั่งซื้อ</h1>
-      <div className="bg-white rounded-lg shadow-md shadow-black p-4 my-4">
-        <EntriesPerPageSelect
-          limit={limitOrders}
-          total={totalOrders}
-          onLimitChange={handleLimitChange}
-          totalItems={totalOrders}
-        />
+      <div className="bg-white md:sticky md:top-20 md:z-10 rounded-lg shadow-md shadow-black p-4 my-4">
+        <div className="flex justify-between items-center">
+          <EntriesPerPageSelect
+            limit={limitOrders}
+            total={totalOrders}
+            onLimitChange={handleLimitChange}
+            totalItems={totalOrders}
+          />
+
+          <p>ทั้งหมด {totalOrders} รายการ</p>
+        </div>
       </div>
       <div className="space-y-8 mt-4">
         {/* Card loop Order  */}
@@ -73,8 +77,8 @@ const HistoryCart = () => {
             <div key={index} className="bg-gray-200 p-4 rounded-md shadow-md">
               <div className="flex justify-between">
                 <div>
-                  <p className="text-lg">Order Date</p>
-                  <p className="font-bold">
+                  <p className="text-base md:text-lg">Order Date</p>
+                  <p className="font-bold text-sm md:text-base">
                     วันที่ {dateFormat(item.updatedAt)}
                   </p>
                 </div>
@@ -82,7 +86,7 @@ const HistoryCart = () => {
                   <span
                     className={`${getStatusColor(
                       item.orderStatus
-                    )} px-2 py-1 rounded-full`}
+                    )} px-2 py-1 rounded-full text-sm md:text-base`}
                   >
                     {item.orderStatus}
                   </span>
@@ -93,7 +97,7 @@ const HistoryCart = () => {
                 <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm text-center">
                   <thead className="bg-gray-300">
                     <tr>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
                         สินค้า
                       </th>
                       <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
@@ -121,9 +125,7 @@ const HistoryCart = () => {
                             {product.count}
                           </td>
                           <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                            {numberFormat(
-                              product.count * product.price
-                            )}
+                            {numberFormat(product.count * product.price)}
                           </td>
                         </tr>
                       );
