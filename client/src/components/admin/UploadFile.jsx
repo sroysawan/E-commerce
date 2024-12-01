@@ -4,16 +4,20 @@ import Resize from "react-image-file-resizer";
 import { removeFiles, uploadFiles } from "../../api/product";
 import useEcomStore from "../../store/ecom-store";
 import { Loader } from 'lucide-react';
-const UploadFile = ({ form, setForm , fileInputRef }) => {
+const UploadFile = ({ form, setForm , fileInputRef, setIsUploading,setAllImagesUploaded   }) => {
   const [isLoading, setIsLoading] = useState(false);
   // const fileInputRef = useRef(null); // เพิ่ม useRef
   const token = useEcomStore((state) => state.token);
 
   const handleOnchange = (e) => {
     setIsLoading(true)
+    setIsUploading(true); // แจ้งว่าเริ่มอัปโหลด
     const files = e.target.files
+    let uploadedCount = 0; // นับจำนวนรูปที่อัปโหลดสำเร็จ
+    const totalFiles = files.length;
+
     if (files) {
-      setIsLoading(true)
+      // setIsLoading(true)
       let allFiles = form.images //[] empty array
       for (let i = 0; i < files.length; i++) {
         // console.log(files[i]);
@@ -41,11 +45,12 @@ const UploadFile = ({ form, setForm , fileInputRef }) => {
               .then((res) => {
                 console.log(res)
 
-                allFiles.push(res.data)
+                allFiles.push(res.data) // เพิ่มรูปใหม่
                 setForm({
                   ...form,
                   images: allFiles,
-                })
+                }) // อัปเดต form
+                uploadedCount++; // นับจำนวนที่อัปโหลดเสร็จ
                 setIsLoading(false)
                 toast.success("Upload Image Success")
               })
@@ -54,7 +59,11 @@ const UploadFile = ({ form, setForm , fileInputRef }) => {
                 setIsLoading(false)
               })
               .finally(() => {
-                setIsLoading(false);
+                if (uploadedCount === totalFiles) {
+                  setIsLoading(false);
+                  setIsUploading(false);
+                  setAllImagesUploaded(true); // บอกว่ารูปทั้งหมดอัปโหลดเสร็จแล้ว
+                }
                 if (fileInputRef.current) {
                   fileInputRef.current.value = ""; // ล้างค่าของ input
                 }
