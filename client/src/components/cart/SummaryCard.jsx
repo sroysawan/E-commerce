@@ -62,14 +62,14 @@ const SummaryCard = () => {
     // console.log(products)
   return (
     <div className='container mx-auto'>
-      <div className='flex flex-wrap gap-4'>
+      <div className='flex flex-col md:flex-row gap-4'>
         {/* Left  */}
-        <div className='w-2/4'>
+        <div className='mx-4 md:w-2/4'>
             <div className='bg-gray-100 p-4 rounded-md border shadow-md space-y-3'>
                 <h1 className='text-xl font-bold'>ที่อยู่ในการส่งสินค้า</h1>
                 <textarea 
                     required
-                    className='w-full resize-none px-2 rounded-md' 
+                    className='w-full resize-none px-2 py-1 rounded-md' 
                     placeholder='กรุณากรอกที่อยู่' 
                     onChange={(e)=>setAddress(e.target.value)}
                 />
@@ -83,7 +83,7 @@ const SummaryCard = () => {
         </div>
 
         {/* Right  */}
-        <div className='w-1/4'>
+        <div className='mx-4 md:w-1/4'>
             <div className='bg-gray-100 p-4 rounded-md border shadow-md space-y-4'>
                 <h1 className='text-xl font-bold'>คำสั่งซื้อของคุณ</h1>
 
