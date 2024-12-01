@@ -41,7 +41,7 @@ const Login = () => {
       const role = res.data.payload.role;
       // ตรวจสอบว่ามาจากหน้า Register หรือไม่
       if (location.state?.fromRegister) {
-        navigate('/user'); // นำไปยัง Dashboard หรือหน้าที่ต้องการ
+        navigate('/'); // นำไปยัง Dashboard หรือหน้าที่ต้องการ
       } else {
         roleRedirect(role); // นำไปยังหน้าที่เหมาะสมตาม role
       }
