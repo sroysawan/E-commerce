@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useEcomStore from "../../store/ecom-store";
 import {
   createProduct,
@@ -24,7 +24,7 @@ const FormEditProduct = () => {
   const token = useEcomStore((state) => state.token);
   const getCategory = useEcomStore((state) => state.getCategory);
   const categories = useEcomStore((state) => state.categories);
-
+  const fileInputRef = useRef(null);
   const [form, setForm] = useState(initialState);
 
   useEffect(() => {
@@ -54,8 +54,11 @@ const FormEditProduct = () => {
     e.preventDefault();
     try {
       const res = await updateProduct(token, id, form);
-    //   console.log(res);
       toast.success(`Edit Product ${res.data.title} success`);
+      // ล้างรูปภาพที่อัปโหลด
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // ล้างค่า input file
+      }
       navigate('/admin/product');
     } catch (error) {
       console.log(error);
@@ -64,67 +67,7 @@ const FormEditProduct = () => {
   };
 
   return (
-    // <div className="container mx-auto p-4 bg-white shadow-md">
-    //   <form onSubmit={handelSubmit}>
-    //     <h1>Edit Product</h1>
-    //     <input
-    //       type="text"
-    //       value={form.title}
-    //       onChange={handelOnChange}
-    //       placeholder="Title"
-    //       name="title"
-    //       className="border"
-    //     />
-    //     <input
-    //       type="text"
-    //       value={form.description}
-    //       onChange={handelOnChange}
-    //       placeholder="Description"
-    //       name="description"
-    //       className="border"
-    //     />
-    //     <input
-    //       type="number"
-    //       value={form.price}
-    //       onChange={handelOnChange}
-    //       placeholder="Price"
-    //       name="price"
-    //       className="border"
-    //     />
-    //     <input
-    //       type="number"
-    //       value={form.quantity}
-    //       onChange={handelOnChange}
-    //       placeholder="Quantity"
-    //       name="quantity"
-    //       className="border"
-    //     />
-    //     <select
-    //       className="border"
-    //       name="categoryId"
-    //       onChange={handelOnChange}
-    //       required
-    //       value={form.categoryId}
-    //     >
-    //       <option value="" disabled>
-    //         Please Selected
-    //       </option>
-    //       {categories.map((item, index) => (
-    //         <option key={index} value={item.id}>
-    //           {item.name}
-    //         </option>
-    //       ))}
-    //     </select>
-    //     <hr />
-    //     {/* upload image */}
-    //     <UploadFile form={form} setForm={setForm} />
-
-    //     <button className="bg-blue-500">Update Product</button>
-    //   </form>
-    //   <hr />
-    //   <br />
-    // </div>
-    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="container mx-auto p-5 bg-white shadow-lg">
     <form onSubmit={handleSubmit} className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-700">Edit Product</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -197,16 +140,17 @@ const FormEditProduct = () => {
           name="description"
           value={form.description}
           onChange={handleOnChange}
+          maxLength="700"
           className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
           rows="4"
-          placeholder="Enter product description"
+          placeholder="Enter product description (max 700 characters)"
         ></textarea>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-600">
           Images
         </label>
-        <UploadFile form={form} setForm={setForm} />
+        <UploadFile form={form} setForm={setForm} fileInputRef={fileInputRef}/>
       </div>
       <div className="flex justify-end">
         <button
