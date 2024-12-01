@@ -46,7 +46,7 @@ const HeaderAdmin = () => {
                           <User />
                         </div>
                         <span className=" text-gray-500 transition hover:text-gray-700">
-                          {user.name}
+                          {user.name.substring(0, user.name.indexOf(' ')) || user.name}
                         </span>
                       </div>
                     </button>
