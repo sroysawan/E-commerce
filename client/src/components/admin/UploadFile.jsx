@@ -43,7 +43,7 @@ const UploadFile = ({ form, setForm , fileInputRef, setIsUploading,setAllImagesU
             // console.log('data',data)
             uploadFiles(token, data)
               .then((res) => {
-                console.log(res)
+                // console.log(res)
 
                 allFiles.push(res.data) // เพิ่มรูปใหม่
                 setForm({
@@ -83,10 +83,10 @@ const UploadFile = ({ form, setForm , fileInputRef, setIsUploading,setAllImagesU
     removeFiles(token, public_id)
     .then((res)=> {
         const filterImages = images.filter((item)=>{
-            console.log(item)
+            // console.log(item)
             return item.public_id !== public_id
         })
-        console.log(filterImages)
+        // console.log(filterImages)
         setForm({
             ...form,
             images: filterImages
