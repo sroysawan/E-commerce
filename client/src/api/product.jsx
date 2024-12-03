@@ -105,7 +105,7 @@ export const searchFilters = async (arg) => {
 
 
 //สินค้าขายดี
-export const listProductBy = async (sort,order,limit) => {
+export const listProductBy = async (sort,order,limit=30) => {
   //code body
   return await axios.post("http://localhost:5000/api/productby",{
     sort,order,limit
