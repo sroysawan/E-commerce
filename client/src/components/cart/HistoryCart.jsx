@@ -4,7 +4,7 @@ import useEcomStore from "../../store/ecom-store";
 import { numberFormat } from "../../utils/number";
 import { dateFormat } from "../../utils/dateFormat";
 import EntriesPerPageSelect from "../ui/EntriesPerPageSelect ";
-import PaginationTable from "../ui/PaginationTable";
+import PaginationTable from "../ui/admin/PaginationTable";
 
 const HistoryCart = () => {
   const token = useEcomStore((state) => state.token);
@@ -55,10 +55,10 @@ const HistoryCart = () => {
     }
   };
   return (
-    <div className="container mx-auto mt-8 mb-8">
-      <h1 className="text-2xl font-bold">ประวัติการสั่งซื้อ</h1>
-      <div className="bg-white md:sticky md:top-20 md:z-10 rounded-lg shadow-md shadow-black p-4 my-4">
-        <div className="flex justify-between items-center">
+    <div className="container mx-auto md:px-0 mt-8 mb-8">
+      <h1 className="text-lg md:text-2xl font-bold text-left">ประวัติการสั่งซื้อ</h1>
+    <div className="bg-white sticky top-0 z-10 rounded-lg shadow-md p-1 md:p-4 my-4">
+    <div className="flex flex-row text-xs md:text-base justify-between items-center md:gap-4">
           <EntriesPerPageSelect
             limit={limitOrders}
             total={totalOrders}
@@ -66,90 +66,65 @@ const HistoryCart = () => {
             totalItems={totalOrders}
           />
 
-          <p>ทั้งหมด {totalOrders} รายการ</p>
+          <p className="text-sm text-gray-600 md:text-base">ทั้งหมด {totalOrders} รายการ</p>
         </div>
       </div>
-      <div className="space-y-8 mt-4">
-        {/* Card loop Order  */}
-        {orders?.map((item, index) => {
-          // console.log(item)
-          return (
-            <div key={index} className="bg-gray-200 p-4 rounded-md shadow-md">
-              <div className="flex justify-between">
-                <div>
-                  <p className="text-base md:text-lg">Order Date</p>
-                  <p className="font-bold text-sm md:text-base">
-                    วันที่ {dateFormat(item.updatedAt)}
-                  </p>
-                </div>
-                <div>
-                  <span
-                    className={`${getStatusColor(
-                      item.orderStatus
-                    )} px-2 py-1 rounded-full text-sm md:text-base`}
-                  >
-                    {item.orderStatus}
-                  </span>
-                </div>
-              </div>
-              {/* table loop product  */}
-              <div className="overflow-x-auto rounded-lg border border-gray-200">
-                <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm text-center">
-                  <thead className="bg-gray-300">
-                    <tr>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
-                        สินค้า
-                      </th>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                        ราคา
-                      </th>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                        จำนวน
-                      </th>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                        รวม
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {item.products?.map((product, index) => {
-                      return (
-                        <tr key={index}>
-                          <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                            {product.product.title}
-                          </td>
-                          <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                            {numberFormat(product.price)}
-                          </td>
-                          <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                            {product.count}
-                          </td>
-                          <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                            {numberFormat(product.count * product.price)}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              <div className="text-right">
-                <p>ราคาสุทธิ</p>
-                <p>{numberFormat(item.cartTotal)}</p>
-              </div>
+
+    {/* รายการสั่งซื้อ */}
+    <div className="space-y-8 mt-4">
+      {orders?.map((order, index) => (
+        <div key={order.id} className="bg-gray-200 p-4 rounded-md shadow-md">
+          <div className="flex flex-wrap justify-between mb-4">
+            <div>
+              <p className="text-sm md:text-base font-medium text-gray-600">วันที่สั่งซื้อ</p>
+              <p className="text-sm md:text-base font-bold">{dateFormat(order.updatedAt)}</p>
             </div>
-          );
-        })}
-      </div>
-      <div className="mt-4 flex justify-center">
-        <PaginationTable
-          totalPages={totalPages}
-          currentPage={pageOrders}
-          onPageChange={handlePageChange}
-        />
-      </div>
+            <div>
+            <span
+                    className={`${getStatusColor(
+                      order.orderStatus
+                    )} px-2 py-1 rounded-full text-xs md:text-base`}
+                  >
+                    {order.orderStatus}
+                  </span>
+            </div>
+          </div>
+          {/* แสดงรายการสินค้าแบบ Card */}
+          <div className="space-y-4">
+            {order.products.map((product, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 sm:grid-cols-4 gap-4 bg-white p-4 rounded-lg shadow-sm"
+              >
+                <div className="sm:col-span-2">
+                  <p className="text-sm font-medium text-gray-600">สินค้า</p>
+                  <p className="text-sm md:text-base font-bold text-gray-900">{product.product.title}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-600">จำนวน</p>
+                  <p className="text-sm md:text-base font-bold text-gray-900">{product.count}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-600">ราคา</p>
+                  <p className="text-sm md:text-base font-bold text-gray-900">{numberFormat(product.count * product.price)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 text-right">
+            <p className="text-sm text-gray-600">ราคาสุทธิ</p>
+            <p className="text-lg font-bold text-red-600">{numberFormat(order.cartTotal)}</p>
+          </div>
+        </div>
+      ))}
     </div>
-  );
+
+    <div className="mt-4 flex justify-center">
+      <PaginationTable totalPages={totalPages} currentPage={pageOrders} onPageChange={handlePageChange} />
+    </div>
+  </div>
+);
 };
+
 
 export default HistoryCart;
