@@ -35,7 +35,7 @@ const FormEditProduct = () => {
   const fetchProduct = async (token, id, form) => {
     try {
       const res = await readProduct(token, id, form);
-      console.log("res form backend", res);
+      // console.log("res form backend", res);
       setForm(res.data);
     } catch (error) {
       console.log(error);
