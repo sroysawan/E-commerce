@@ -38,7 +38,7 @@ export default function CheckoutForm() {
       redirect: "if_required",
     });
 
-    console.log("payload", payload);
+    // console.log("payload", payload);
 
     if (payload.error) {
       setMessage(payload.error.message);
@@ -48,7 +48,7 @@ export default function CheckoutForm() {
       //create order and save payload to backend
       saveOrder(token, payload)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           clearCart()
           toast.success("ชำระเงินสำเร็จ");
           navigate("/user/history");
