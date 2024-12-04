@@ -17,7 +17,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ py: 1 }}>{children}</Box>}
     </div>
   );
 }
@@ -43,8 +43,7 @@ export default function BasicTabs() {
   };
 
   return (
-    <div>
-      <Box >
+      <Box>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
@@ -62,6 +61,6 @@ export default function BasicTabs() {
           <FormAddProduct />
         </CustomTabPanel>
       </Box>
-    </div>
+
   );
 }
