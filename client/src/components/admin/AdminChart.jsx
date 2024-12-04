@@ -54,13 +54,13 @@ const AdminChart = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[55%_40%] justify-between gap-6">
       <div className="bg-white shadow-lg h-[400px] p-4 flex flex-col">
-        <p className="text-xl font-bold mb-4">ยอดขายรายเดือน (Monthly Sales)</p>
+        <p className="text-sm md:text-xl font-bold mb-4">ยอดขายรายเดือน (Monthly Sales)</p>
         <div className="flex-grow flex justify-center items-center">
           <Bar data={barData(labelBarArr, dataBarArr)} options={barOptions} />
         </div>
       </div>
       <div className="bg-white shadow-lg h-[400px] p-4 flex flex-col">
-        <p className="text-xl font-bold mb-4">หมวดหมู่สินค้าขายดี</p>
+        <p className="text-sm md:text-xl font-bold mb-4">หมวดหมู่สินค้าขายดี</p>
         <div className="flex-grow flex justify-center items-center">
           <Pie data={pieData(labelPieArr, dataPieArr)} options={pieOptions} />
         </div>
