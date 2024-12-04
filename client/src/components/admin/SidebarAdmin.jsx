@@ -1,93 +1,106 @@
-import React from "react";
-import { NavLink,useNavigate } from "react-router-dom";
-import { ChartBarStacked, LayoutDashboard, ListOrdered, LogOut, ShoppingCart, UserRoundCog } from "lucide-react";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  ChartBarStacked,
+  LayoutDashboard,
+  ListOrdered,
+  LogOut,
+  Menu,
+  ShoppingCart,
+  UserRoundCog,
+} from "lucide-react";
 import useEcomStore from "../../store/ecom-store";
 const SidebarAdmin = () => {
-
   const actionLogout = useEcomStore((state) => state.actionLogout);
-  const navigate = useNavigate()
-
-  const logoutRedirect = () => {
-    actionLogout()
-    navigate('/login')
-  }
+  const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
-    <div className="hidden md:flex flex-col h-screen  bg-gray-900 text-gray-100 w-72 ">
-      <div className="h-24 bg-gray-900 flex flex-col items-center justify-center text-2xl font-bold">
-        <p>Admin Panel</p>
-      </div>
+    <>
+      {/* Hamburger Button */}
+      <button
+        className="md:hidden fixed top-4 left-2 z-40 md:z-50 text-gray-600 hover:text-red-500 p-2"
+        onClick={toggleSidebar}
+      >
+        {isSidebarOpen ? "" : <Menu size={28}/>}
+      </button>
 
-      <nav className="flex-1 px-4 py-4 space-y-2">
-        <NavLink
-          to={"/admin"}
-          end
-          className={({isActive}) =>
-            isActive
-              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-800 hover:text-white rounded flex items-center"
-          }
-        >
-          <LayoutDashboard className="mr-2" />
-          Dashboard
-        </NavLink>
-        <NavLink
-          to={"manage"}
-          className={({isActive}) =>
-            isActive
-              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-800 hover:text-white rounded flex items-center"
-          }
-        >
-          <UserRoundCog className="mr-2"/>
-          Manage
-        </NavLink>
-        <NavLink
-          to={"category"}
-          className={({isActive}) =>
-            isActive
-              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-800 hover:text-white rounded flex items-center"
-          }
-        >
-          <ChartBarStacked className="mr-2" />
-          Category
-        </NavLink>
-        <NavLink
-          to={"product"}
-          className={({isActive}) =>
-            isActive
-              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-800 hover:text-white rounded flex items-center"
-          }
-        >
-          <ShoppingCart className="mr-2" />
-          Product
-        </NavLink>
+      {/* Sidebar */}
+      <div className={`fixed md:relative inset-y-0 left-0 z-50 md:z-40  bg-gray-900 text-gray-100 w-52 md:w-72 transform
+        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"} md:translate-x-0 transition-transform duration-300 ease-in-out
+        `}>
+        <div className="h-24 bg-gray-900 flex flex-col items-center justify-center text-lg md:text-2xl font-bold">
+          <p>Admin Panel</p>
+        </div>
 
-        <NavLink
-          to={"orders"}
-          className={({isActive}) =>
-            isActive
-              ? "bg-gray-700 text-white px-4 py-2 rounded-md flex items-center"
-              : "text-gray-300 px-4 py-2 hover:bg-gray-800 hover:text-white rounded flex items-center"
-          }
-        >
-          <ListOrdered className="mr-2"/>
-          Orders
-        </NavLink>
-      </nav>
+        <nav className="flex-1 px-4 py-4 space-y-2">
+          <NavLink
+            to={"/admin"}
+            end
+            className={({ isActive }) =>
+              isActive ? "nav-link nav-link-active" : "nav-link"
+            }
+            onClick={()=> toggleSidebar(false)}
+          >
+            <LayoutDashboard className="mr-2" />
+            Dashboard
+          </NavLink>
+          <NavLink
+            to={"manage"}
+            className={({ isActive }) =>
+              isActive ? "nav-link nav-link-active" : "nav-link"
+            }
+            onClick={()=> toggleSidebar(false)}
+          >
+            <UserRoundCog className="mr-2" />
+            Manage
+          </NavLink>
+          <NavLink
+            to={"category"}
+            className={({ isActive }) =>
+              isActive ? "nav-link nav-link-active" : "nav-link"
+            }
+            onClick={()=> toggleSidebar(false)}
+          >
+            <ChartBarStacked className="mr-2" />
+            Category
+          </NavLink>
+          <NavLink
+            to={"product"}
+            className={({ isActive }) =>
+              isActive ? "nav-link nav-link-active" : "nav-link"
+            }
+            onClick={()=> toggleSidebar(false)}
+          >
+            <ShoppingCart className="mr-2" />
+            Product
+          </NavLink>
 
-      {/* <footer className="px-4 py-4">
-      <NavLink
-          onClick={logoutRedirect}
-          className='text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center'
-        >
-          <LogOut className="mr-2" />
-          Logout
-        </NavLink>
-      </footer> */}
-    </div>
+          <NavLink
+            to={"orders"}
+            className={({ isActive }) =>
+              isActive ? "nav-link nav-link-active" : "nav-link"
+            }
+            onClick={()=> toggleSidebar(false)}
+          >
+            <ListOrdered className="mr-2" />
+            Orders
+          </NavLink>
+        </nav>
+       </div>
+
+       {/* Overlay for Sidebar in Mobile */}
+       {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-30 md:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
+    </>
   );
 };
 
