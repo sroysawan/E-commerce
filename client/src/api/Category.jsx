@@ -31,7 +31,9 @@ const getCategoryWithoutPagination = async (token) => {
 
 export const listByCategory = async (id) => {
   //code body
-  return await axios.get("http://localhost:5000/api/category/" + id);
+  const decodedId = decodeURIComponent(id);
+  // return await axios.get("http://localhost:5000/api/category/" + id);
+  return await axios.get(`http://localhost:5000/api/category/${decodedId}`);
 };
 
 export const updateCategory = async (token, id, form) => {
