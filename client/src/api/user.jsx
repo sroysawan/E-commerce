@@ -54,9 +54,9 @@ export const saveOrder = async (token,payload) => {
   //   });
   // };
 
-  export const historyUserCart = async (token, page = 1, limit = 5) => {
+  export const historyUserCart = async (token, page = 1, limit = 5,searchQuery = "" ) => {
     return await axios.get("http://localhost:5000/api/user/order", {
-        params: { page, limit }, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
+        params: { page, limit , query: searchQuery}, // ส่งพารามิเตอร์เพื่อรองรับการแบ่งหน้า
         headers: {
             Authorization: `Bearer ${token}`,
         },
