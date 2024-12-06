@@ -23,7 +23,7 @@ const SidebarAdmin = () => {
     <>
       {/* Hamburger Button */}
       <button
-        className="md:hidden fixed top-4 left-2 z-40 md:z-50 text-gray-600 hover:text-red-500 p-2"
+        className="md:hidden fixed top-3 left-2 z-40 md:z-50 text-gray-600 hover:text-red-500 p-2"
         onClick={toggleSidebar}
       >
         {isSidebarOpen ? "" : <Menu size={28}/>}
