@@ -22,7 +22,7 @@ const ConfirmDialog = ({ open, onCancel, onConfirm }) => {
       }}
     >
       <DialogTitle>
-        <div className="flex items-center gap-2 text-red-700 text-2xl">
+        <div className="flex items-center gap-2 text-red-700 text-xl md:text-2xl">
           <Trash2 />
           Delete Confirmation
         </div>
