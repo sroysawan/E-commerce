@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import FormProductPagination from "../../admin/FormProductPagination";
-import FormAddProduct from "../../admin/FormAddProduct";
+import FormProductPagination from "../../admin/products/FormProductPagination";
+import FormAddProduct from "../../admin/products/FormAddProduct";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
