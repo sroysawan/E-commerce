@@ -21,35 +21,6 @@ exports.changeOrderStatus = async (req, res) => {
   }
 };
 
-//old
-// exports.getOrderAdmin = async(req,res)=> {
-//     try {
-//         const orders = await prisma.order.findMany({
-//             include:{
-//                 products:{
-//                     include:{
-//                         product:true
-//                     }
-//                 },
-//                 orderedBy:{
-//                     select:{
-//                         id:true,
-//                         email:true,
-//                         address:true
-//                     }
-//                 }
-//             }
-//         })
-//         res.json(orders)
-
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).json({
-//             message: 'Server Error'
-//         })
-//     }
-// }
-
 exports.getOrderAdmin = async (req, res) => {
   const {
     page,
@@ -67,7 +38,7 @@ exports.getOrderAdmin = async (req, res) => {
 
   // สร้าง orderBy Array
   const orderBy =
-    sortOrder !== "default"
+    sortOrder !== "firstToggle"
       ? sortByFields.map((field, index) => ({
           [field]: sortOrders[index] || "asc",
         }))
@@ -75,14 +46,15 @@ exports.getOrderAdmin = async (req, res) => {
 
   try {
     // เงื่อนไขการค้นหา
+    const lowerQuery = query?.toLowerCase();
     const where = query
     ? {
         OR: [
           {
             orderedBy: {
               OR: [
-                { email: { contains: query,} },
-                { address: { contains: query,} },
+                { email: { contains: lowerQuery, } },
+                { address: { contains: lowerQuery, } },
               ],
             },
           },
@@ -90,7 +62,7 @@ exports.getOrderAdmin = async (req, res) => {
             products: {
               some: {
                 product: {
-                  title: { contains: query,}, // ค้นหา title ของ Product
+                  title: { contains: lowerQuery, }, // ค้นหา title ของ Product
                 },
               },
             },
@@ -120,7 +92,9 @@ exports.getOrderAdmin = async (req, res) => {
         },
       },
     });
-    const totalOrder = await prisma.order.count();
+    const totalOrder = await prisma.order.count({
+      where: where,
+    });
     res.json({
       orders,
       total: totalOrder,
