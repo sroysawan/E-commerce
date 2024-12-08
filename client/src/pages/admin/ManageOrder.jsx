@@ -1,11 +1,9 @@
 import React from 'react'
-import TableOrders from '../../components/admin/TableOrders'
-import TableOrderPagination from '../../components/admin/TableOrderPagination'
+import TableOrderPagination from '../../components/admin/orders/TableOrderPagination'
 
 const ManageOrder = () => {
   return (
     <div className="container mx-auto">
-      {/* <TableOrders /> */}
       <TableOrderPagination />
     </div>
   )
