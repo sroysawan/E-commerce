@@ -1,5 +1,5 @@
 import React from 'react'
-import FromDashboard from '../../components/admin/FromDashboard'
+import FromDashboard from '../../components/admin/dashboards/FromDashboard'
 
 const Dashboard = () => {
   return (
