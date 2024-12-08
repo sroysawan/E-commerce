@@ -30,7 +30,7 @@ const SwiperShowProduct = ({children}) => {
       {isSwiperReady && (
         <>
           <button
-            className={`hidden md:block absolute -left-5 top-1/2 transform -translate-y-1/2 z-10 
+            className={`hidden xl:block absolute -left-5 top-1/2 transform -translate-y-1/2 z-10 
                text-white p-2 rounded-full 
               ${isBeginning ? "bg-gray-400 cursor-not-allowed" : "bg-gray-800 hover:bg-gray-600 "}`}
             onClick={handlePrev}
@@ -42,7 +42,7 @@ const SwiperShowProduct = ({children}) => {
 
           {/* ปุ่มควบคุมเลื่อนขวา */}
           <button
-            className={`hidden md:block absolute -right-5 top-1/2 transform -translate-y-1/2 z-10 
+            className={`hidden xl:block absolute -right-5 top-1/2 transform -translate-y-1/2 z-10 
                text-white p-2 rounded-full 
               ${isEnd ? "bg-gray-400 cursor-not-allowed" : "bg-gray-800 hover:bg-gray-600 "}`}
             onClick={handleNext}
@@ -89,7 +89,7 @@ const SwiperShowProduct = ({children}) => {
         },
         1024: {
           slidesPerView: 4,
-          spaceBetween: 30,
+          spaceBetween: 20,
         },
         1280: {
           slidesPerView: 6,
