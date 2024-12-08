@@ -1,5 +1,5 @@
 import React from 'react'
-import FormEditProduct from '../../components/admin/FormEditProduct'
+import FormEditProduct from '../../components/admin/products/FormEditProduct'
 
 const EditProduct = () => {
   return (
