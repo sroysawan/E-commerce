@@ -1,5 +1,5 @@
 import React from "react";
-import FormCategoryPagination from "../../components/admin/FormCaregoryPagination";
+import FormCategoryPagination from "../../components/admin/categorys/FormCategoryPagination";
 
 const Category = () => {
   return (
