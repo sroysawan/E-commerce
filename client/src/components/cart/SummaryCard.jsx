@@ -38,13 +38,13 @@ const SummaryCard = () => {
     }
     
     const handleSaveAddress = () => {
-        console.log(address)
+        // console.log(address)
         if(!address){
            return toast.warning('Please fill address')
         }
         saveAddress(token,address)
         .then((res)=>{
-            console.log(res)
+            // console.log(res)
             toast.success(res.data.message)
             setAddressSaved(true)
         })
