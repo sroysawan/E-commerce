@@ -1,10 +1,9 @@
 import React from 'react'
-import ListCart from '../components/cart/ListCart'
 import CartCard from '../components/cart/CartCard'
 
 const Cart = () => {
   return (
-    <div className='container px-2 md:mx-auto mt-8'>
+    <div className='container md:px-0 md:mx-auto  md:mt-8 md:mb-0'>
       <CartCard />
     </div>
   )
