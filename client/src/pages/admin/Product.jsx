@@ -1,12 +1,10 @@
 import React from 'react'
-import FormProduct from '../../components/admin/FormProduct'
-import FormProductPagination from '../../components/admin/FormProductPagination'
+import BasicTabs from '../../components/ui/admin/Tabs'
 
 const Product = () => {
   return (
     <div className="container mx-auto">
-      {/* <FormProduct/> */}
-      <FormProductPagination/>
+      <BasicTabs />
     </div>
   )
 }
