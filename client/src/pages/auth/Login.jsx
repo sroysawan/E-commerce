@@ -10,7 +10,7 @@ const Login = () => {
 
   const actionLogin = useEcomStore((state) => state.actionLogin);
   const user = useEcomStore((state) => state.user);
-  console.log("user from zustand", user);
+  // console.log("user from zustand", user);
 
   // useEffect(() => {
   //   // หากผู้ใช้ล็อกอินแล้ว ให้ redirect ไปหน้าอื่น
