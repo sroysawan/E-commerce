@@ -15,7 +15,7 @@ const Payment = () => {
     useEffect(()=>{
         payment(token)
         .then((res)=>{
-            console.log(res)
+            // console.log(res)
             setClientSecret(res.data.clientSecret)
         })
         .catch((error)=>{
