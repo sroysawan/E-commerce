@@ -15,7 +15,7 @@ const UserTableMobile = ({
   const token = useEcomStore((state) => state.token);
 
   return (
-    <div className="md:hidden">
+    <div className="xl:hidden">
       <div className="flex justify-between gap-2 mb-3">
         <button
           onClick={() => toggleSortUser("createdAt")}

@@ -17,7 +17,7 @@ const UserTableDesktop = ({
 }) => {
   const token = useEcomStore((state) => state.token);
   return (
-    <table className="hidden md:table  min-w-full  border-collapse bg-white shadow-md ">
+    <table className="hidden xl:table  min-w-full  border-collapse bg-white shadow-md ">
       <thead className="bg-blue-600 text-white text-base font-medium">
         <tr>
           <th className="px-6 py-3 w-28 text-center">ลำดับ</th>

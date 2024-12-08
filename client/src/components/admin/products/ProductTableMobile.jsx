@@ -15,7 +15,7 @@ const ProductTableMobile = ({
   handleDelete,
 }) => {
   return (
-    <div className="block md:hidden space-y-4">
+    <div className="block xl:hidden space-y-4">
       <div className="flex justify-between gap-2 mb-3">
         <button
           onClick={() => toggleSortUser("createdAt")}

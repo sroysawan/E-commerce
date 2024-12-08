@@ -170,15 +170,15 @@ const FormProductPagination = () => {
   };
 
   return (
-    <div className="gird grid-cols-1 md:block p-5 bg-white shadow-lg">
+    <div className="gird grid-cols-1 xl:block p-5 bg-white shadow-lg">
       <div className="flex justify-between items-center mb-3">
-        <h1 className="font-bold text-sm md:text-2xl">Product</h1>
-        <h1 className="font-bold text-xs md:text-xl">
+        <h1 className="font-bold text-sm xl:text-2xl">Product</h1>
+        <h1 className="font-bold text-xs xl:text-xl">
           ทั้งหมด {totalProduct} รายการ
         </h1>
       </div>
 
-      <div className="mb-3 flex flex-col space-y-2 md:space-y-0 md:flex-row md:justify-between">
+      <div className="mb-3 flex flex-col space-y-2 xl:space-y-0 xl:flex-row xl:justify-between">
         <EntriesPerPageSelect
           limit={limitProduct}
           total={totalProduct}

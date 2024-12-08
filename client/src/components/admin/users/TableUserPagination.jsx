@@ -155,15 +155,15 @@ console.log(totalUsers)
   };
 
   return (
-    <div className="grid grid-cols-1 md:block overflow-x-auto p-5 bg-white shadow-lg">
+    <div className="grid grid-cols-1 xl:block overflow-x-auto p-5 bg-white shadow-lg">
       <div className="flex justify-between items-center mb-3">
-        <h1 className="font-bold text-sm md:text-2xl">User Management</h1>
-        <h1 className="font-bold text-xs md:text-xl">
+        <h1 className="font-bold text-sm xl:text-2xl">User Management</h1>
+        <h1 className="font-bold text-xs xl:text-xl">
           ทั้งหมด {totalUsers} รายการ
         </h1>
       </div>
-      {/* flex flex-row text-xs md:text-base justify-between items-center md:gap-4" */}
-      <div className="mb-3 flex flex-col space-y-2 md:space-y-0 md:flex-row md:justify-between">
+      {/* flex flex-row text-xs xl:text-base justify-between items-center xl:gap-4" */}
+      <div className="mb-3 flex flex-col space-y-2 xl:space-y-0 xl:flex-row xl:justify-between">
         <EntriesPerPageSelect
           limit={limitUser}
           total={totalUsers}

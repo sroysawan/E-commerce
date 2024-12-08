@@ -17,7 +17,7 @@ const ProductTableDesktop = ({
     handleDelete,
 }) => {
   return (
-    <table className="hidden md:table min-w-full border-collapse bg-white shadow-md">
+    <table className="hidden xl:table min-w-full border-collapse bg-white shadow-md">
     <thead className="bg-blue-500 text-white text-left text-base uppercase font-medium">
       <tr>
         <th className="px-4 py-3 w-10 text-center">No</th>
