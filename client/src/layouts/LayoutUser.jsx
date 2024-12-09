@@ -1,17 +1,18 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import MainNav from '../components/MainNav'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import MainNav from "../components/MainNav";
+import Footer from "../components/Footer";
 
 const LayoutUser = () => {
   return (
-    <div>
-      <MainNav/>
-      <main className='h-full px-4 mt-2 mx-auto'>
-        
-        <Outlet/>
+    <div className="flex flex-col min-h-screen">
+      <MainNav />
+      <main className="flex-grow">
+        <Outlet />
       </main>
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default LayoutUser
+export default LayoutUser;
