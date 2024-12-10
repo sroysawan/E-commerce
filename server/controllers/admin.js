@@ -53,8 +53,8 @@ exports.getOrderAdmin = async (req, res) => {
           {
             orderedBy: {
               OR: [
-                { email: { contains: lowerQuery, } },
-                { address: { contains: lowerQuery, } },
+                { email: { contains: lowerQuery, mode: "insensitive"} },
+                { address: { contains: lowerQuery, mode: "insensitive"} },
               ],
             },
           },
@@ -62,7 +62,7 @@ exports.getOrderAdmin = async (req, res) => {
             products: {
               some: {
                 product: {
-                  title: { contains: lowerQuery, }, // ค้นหา title ของ Product
+                  title: { contains: lowerQuery, mode: "insensitive"}, // ค้นหา title ของ Product
                 },
               },
             },
