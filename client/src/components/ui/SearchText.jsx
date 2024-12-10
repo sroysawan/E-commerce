@@ -55,8 +55,8 @@ const SearchText = () => {
         }));
 
       // ดึง Products
-      const products = useEcomStore.getState().products;
-      const matchingProducts = products.map((product) => ({
+      const searchResults = useEcomStore.getState().searchResults;
+      const matchingProducts = searchResults.map((product) => ({
         id: product.id,
         name: product.title,
         category: product.category?.name,
@@ -76,24 +76,6 @@ const SearchText = () => {
     setSuggestions([]);
   };
 
-  // const onSuggestionsFetchRequested = async ({ value }) => {
-  //   if (value.trim() !== "") {
-  //     await actionSearchFilters({ query: value });
-  //     const products = useEcomStore.getState().products;
-  //     const suggestions = products.map((product) => ({
-  //       id: product.id,
-  //       name: product.title,
-  //       category: product.category?.name,
-  //     }));
-  //     setSuggestions(suggestions);
-  //   } else {
-  //     setSuggestions([]);
-  //   }
-  // };
-
-  // const onSuggestionsClearRequested = () => {
-  //   setSuggestions([]);
-  // };
 
   const renderSuggestion = (suggestion) => {
     if (suggestion.isNoResults) {
