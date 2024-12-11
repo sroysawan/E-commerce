@@ -4,7 +4,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Button,
 } from "@mui/material";
 import { Trash2 } from "lucide-react";
 
