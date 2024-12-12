@@ -27,7 +27,7 @@ const SearchIcon = styled("span")({
   zIndex: 1,
 });
 
-const SearchText = () => {
+const SearchText = ({setIsSearchOpen}) => {
   const actionSearchFilters = useEcomStore(
     (state) => state.actionSearchFilters
   );
@@ -111,6 +111,7 @@ const onSuggestionSelected = (event, { suggestion }) => {
     navigate(`/product/${suggestion.id}/${encodeURIComponent(suggestion.name)}`);
   }
   setQuery("");
+  setIsSearchOpen(false);
 };
 
   const onEnterPress = (event) => {
@@ -121,11 +122,13 @@ const onSuggestionSelected = (event, { suggestion }) => {
 
       if (suggestions.length > 0 && !suggestions[0].isNoResults) {
         navigate(`/product/${formattedQuery}`);
+        
         setQuery("");
       } else if (query.trim() !== "") {
         navigate(`/product/${formattedQuery}`);
       }
       setQuery("");
+      setIsSearchOpen(false);
     }
   };
 
