@@ -8,22 +8,20 @@ import SideBarFilter from "../components/ui/SideBarFilter";
 
 const Shop = () => {
   const getProduct = useEcomStore((state) => state.getProduct);
-  const products = useEcomStore((state) => state.products);
-  const isLoading = useEcomStore((state) => state.isLoading);
   const filteredProductShop = useEcomStore(
     (state) => state.filteredProductShop
   );
-  const [productsShop, setProductShop] = useState([]);
   const [view, setView] = useState("module");
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
   const [initialSearchCardLoad, setInitialSearchCardLoad] = useState(true); // เพิ่ม state สำหรับ SearchCard
+  const [isSidebarFilterOpen, setIsSidebarFilterOpen] = useState(false);  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
 
   const loadingTimeoutRef = useRef(null);
   const dataTimeoutRef = useRef(null);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20);
 
   // Calculate pagination
   const totalPages = Math.ceil(
@@ -96,9 +94,7 @@ const Shop = () => {
         setInitialSearchCardLoad(false);
       }
     };
-
     loadInitialData();
-
     // Cleanup on unmount
     return () => {
       cleanupTimeouts();
@@ -113,23 +109,20 @@ const Shop = () => {
       setCurrentPage(1); // Reset to first page when category changes
       loadingTimeoutRef.current = setTimeout(() => {
         setShowSkeleton(false);
-
         dataTimeoutRef.current = setTimeout(() => {
           setIsDataReady(true);
         }, 100);
       }, 300); // Reduced time for filtering operations
-
       return () => {
         cleanupTimeouts();
       };
     }
   }, [filteredProductShop]);
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSideBarFilter = () => {
     console.log("first");
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarFilterOpen(!isSidebarFilterOpen);
   };
   const shouldShowContent = !showSkeleton && isDataReady;
 
@@ -145,11 +138,10 @@ const Shop = () => {
             </h1>
           </div>
           <div className="flex items-center gap-x-3">
-              <SideBarFilter
-                isSidebarOpen={isSidebarOpen}
-                toggleSideBarFilter={toggleSideBarFilter}
-              >
-              </SideBarFilter>
+            <SideBarFilter
+              isSidebarFilterOpen={isSidebarFilterOpen}
+              toggleSideBarFilter={toggleSideBarFilter}
+            ></SideBarFilter>
             <ViewButton view={view} setView={setView} />
           </div>
         </div>
