@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import useEcomStore from "../../../store/ecom-store";
 import { deleteProduct } from "../../../api/product";
 import { toast } from "react-toastify";
-import ConfirmDialog from "../../ui/ConfirmDialog";
+import ConfirmDialog from "../../ui/admin/ConfirmDialog";
 import PaginationTable from "../../ui/admin/PaginationTable";
 import EntriesPerPageSelect from "../../ui/EntriesPerPageSelect ";
 import SearchTable from "../../ui/admin/SearchTable";
@@ -172,7 +172,7 @@ const FormProductPagination = () => {
   return (
     <div className="gird grid-cols-1 xl:block p-5 bg-white shadow-lg">
       <div className="flex justify-between items-center mb-3">
-        <h1 className="font-bold text-sm xl:text-2xl">Product</h1>
+        <h1 className="font-bold text-base xl:text-2xl">Product</h1>
         <h1 className="font-bold text-xs xl:text-xl">
           ทั้งหมด {totalProduct} รายการ
         </h1>
