@@ -13,10 +13,31 @@ const OrderTableMobile = ({
   expandedOrderId,
   handleChangeOrderStatus,
   toggleOrderDetails,
+  toggleSortOrder,
 }) => {
   const token = useEcomStore((state) => state.token);
   return (
-    <div className="md:hidden">
+    <div className="xl:hidden">
+      <div className="flex justify-between gap-2 mb-3">
+        <button
+          onClick={() => toggleSortOrder("createdAt")}
+          className="px-2 py-1.5 bg-blue-500 text-xs text-white rounded hover:bg-blue-600"
+        >
+          Sort by Date
+        </button>
+        <button
+          onClick={() => toggleSortOrder("orderedById")}
+          className="px-2 py-1.5 bg-blue-500 text-xs text-white rounded hover:bg-blue-600"
+        >
+          Sort by Name
+        </button>
+        <button
+          onClick={() => toggleSortOrder("orderStatus")}
+          className="px-2 py-1.5 bg-blue-500 text-xs text-white rounded hover:bg-blue-600"
+        >
+          Sort by Status
+        </button>
+      </div>
       {isFirstLoad ? (
         <SkeletonLoaderTable rows={5} columns={8} />
       ) : orders?.length > 0 ? (
