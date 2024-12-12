@@ -157,7 +157,7 @@ console.log(totalUsers)
   return (
     <div className="grid grid-cols-1 xl:block overflow-x-auto p-5 bg-white shadow-lg">
       <div className="flex justify-between items-center mb-3">
-        <h1 className="font-bold text-sm xl:text-2xl">User Management</h1>
+        <h1 className="font-bold text-base xl:text-2xl">User Management</h1>
         <h1 className="font-bold text-xs xl:text-xl">
           ทั้งหมด {totalUsers} รายการ
         </h1>
