@@ -32,7 +32,7 @@ const ListCart = () => {
   const handleSaveCart = async () => {
     await createUserCart(token, { cart })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         toast.success("Add to Cart Success");
         navigate("/checkout");
       })
@@ -44,16 +44,16 @@ const ListCart = () => {
     // console.log('save cart')
   };
   return (
-    <div className="bg-gray-300 rounded-lg p-4">
-      <div className="flex gap-4 items-center mb-4">
+    <div className="bg-gray-300 w-full h-full xl:rounded-lg px-2 py-1 xl:p-4">
+      <div className="flex gap-4 items-center py-2 mb-3 xl:py-0">
         <ListCheck size={36} />
-        <h1 className="font-bold text-2xl">
+        <h1 className="font-bold text-xl xl:text-2xl ">
           รายการสินค้า {cart.length} สินค้า
         </h1>
       </div>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 h-[50vh]">
-        <div className=" rounded-lg bg-gray-300">
-          <div className="col-span-2 h-[50vh] overflow-y-auto pr-2">
+
+     <div className="grid grid-cols-1 gap-4 h-full xl:grid-cols-[2fr,1fr] ">
+          <div className="rounded-lg h-[50vh] xl:h-[49vh] xl:p-0 xl:border-0 overflow-y-auto xl:pr-1 ">
             {cart.map((item, index) => (
               <div
                 key={item.id}
@@ -74,7 +74,7 @@ const ListCart = () => {
                       </div>
                     )}
                     <div>
-                      <p className="font-bold">{item.title}</p>
+                      <p className="font-bold text-sm md:text-base">{item.title}</p>
                       <p className="text-sm">
                         {numberFormat(item.price)} x {item.count}
                       </p>
@@ -88,14 +88,13 @@ const ListCart = () => {
               </div>
             ))}
           </div>
-        </div>
-        <div className="rounded-lg bg-gray-300 ">
+        <div className="rounded-lg w-full">
           {/* Right  */}
-          <div className=" bg-white rounded-lg p-4 shadow-md space-y-4">
-            <h1 className="text-2xl font-bold">ยอดรวม</h1>
+          <div className=" bg-white  rounded-lg p-2 xl:p-4 shadow-md space-y-2 xl:space-y-4">
+            <h1 className="text-xl xl:text-2xl font-bold">ยอดรวม</h1>
             <div className="flex justify-between items-center">
-              <span>รวมสุทธิ</span>
-              <span className="text-xl">{numberFormat(getTotalPrice())}</span>
+              <span className="text-lg xl:text-xl">รวมสุทธิ</span>
+              <span className="text-lg xl:text-xl">{numberFormat(getTotalPrice())}</span>
             </div>
             <div className="flex flex-col gap-2">
               {user ? (
@@ -103,7 +102,7 @@ const ListCart = () => {
                   // แสดงปุ่มสั่งซื้อที่ใช้งานได้
                   <Link>
                     <button
-                      className="bg-red-600 text-white w-full rounded-lg py-2 shadow-md hover:bg-red-700"
+                      className="bg-red-600 text-white text-sm xl:text-base w-full rounded-lg py-2 shadow-md hover:bg-red-700"
                       onClick={handleSaveCart}
                     >
                       สั่งซื้อ
@@ -113,7 +112,7 @@ const ListCart = () => {
                   // แสดงปุ่มสั่งซื้อที่ disabled
                   <Link>
                     <button
-                      className="bg-black text-white w-full rounded-lg py-2 shadow-md "
+                      className="bg-black text-white text-sm xl:text-base  w-full rounded-lg py-2 shadow-md "
                       disabled
                     >
                       ไม่มีสินค้า
@@ -123,7 +122,7 @@ const ListCart = () => {
               ) : (
                 // แสดงปุ่ม Login
                 <Link to={"/login"}>
-                  <button className="bg-blue-600 text-white w-full rounded-lg py-2 shadow-md hover:bg-blue-700">
+                  <button className="bg-blue-600 text-white text-sm xl:text-base w-full rounded-lg py-2 shadow-md hover:bg-blue-700">
                     Login
                   </button>
                 </Link>
@@ -131,7 +130,7 @@ const ListCart = () => {
 
               <Link to={"/cart"}>
                 <button
-                  className="bg-gray-500 text-white w-full 
+                  className="bg-gray-500 text-white text-sm xl:text-base w-full 
                             rounded-lg py-2 shadow-md hover:bg-gray-700"
                 >
                   แก้ไขรายการ

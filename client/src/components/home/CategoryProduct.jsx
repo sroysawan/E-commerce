@@ -37,7 +37,7 @@ const CategoryProduct = () => {
   return (
     <>
     {categories && categories.length > 0 ? ( // ตรวจสอบว่ามีข้อมูลใน categories
-        <div className="grid grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-6 md:gap-8">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6 md:gap-8">
           {categories.map((item, index) => (
             <Link
               key={index}
