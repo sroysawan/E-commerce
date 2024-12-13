@@ -61,10 +61,10 @@ const SummaryCard = () => {
     }
     // console.log(products)
   return (
-    <div className='container mx-auto'>
-      <div className='flex flex-col md:flex-row gap-4'>
+
+      <div className='flex flex-col md:flex-row gap-4 xl:justify-center'>
         {/* Left  */}
-        <div className='mx-4 md:w-2/4'>
+        <div className='mx-2 md:mx-0 md:w-1/2 xl:w-2/4'>
             <div className='bg-gray-100 p-4 rounded-md border shadow-md space-y-3'>
                 <h1 className='text-xl font-bold'>ที่อยู่ในการส่งสินค้า</h1>
                 <textarea 
@@ -83,7 +83,7 @@ const SummaryCard = () => {
         </div>
 
         {/* Right  */}
-        <div className='mx-4 md:w-1/4'>
+        <div className='mx-2 md:mx-0 md:w-1/2 xl:w-1/4'>
             <div className='bg-gray-100 p-4 rounded-md border shadow-md space-y-4'>
                 <h1 className='text-xl font-bold'>คำสั่งซื้อของคุณ</h1>
 
@@ -152,7 +152,7 @@ const SummaryCard = () => {
             </div>
         </div>
       </div>
-    </div>
+
   )
 }
 
