@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { historyUserCart } from "../../api/user";
 import useEcomStore from "../../store/ecom-store";
 import { numberFormat } from "../../utils/number";
 import { dateFormat } from "../../utils/dateFormat";
@@ -7,25 +6,35 @@ import EntriesPerPageSelect from "../ui/EntriesPerPageSelect ";
 import PaginationTable from "../ui/admin/PaginationTable";
 import { statusColor } from "../../utils/statusColor";
 import SearchTable from "../ui/admin/SearchTable";
+import SkeletonHistoryCart from "../ui/Skeletons/SkeletonHistoryCart";
+
 const HistoryCart = () => {
   const {
     token,
     historyOrders,
     totalHistoryOrders,
-    page,
-    limit,
     getAllHistoryOrder,
-    isLoading,
+    resetHistoryOrders,
   } = useEcomStore((state) => state);
-  const [orders, setOrders] = useState([]);
   const [pageOrders, setPageOrders] = useState(1);
   const [limitOrders, setLimitOrders] = useState(10);
-
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // สถานะการโหลดข้อมูล
   const [searchQuery, setSearchQuery] = useState("");
   const debounceTimeout = useRef(null);
-  useEffect(() => {
-    getAllHistoryOrder(token, pageOrders, limitOrders, searchQuery);
-  }, [token, pageOrders, limitOrders, searchQuery]);
+
+// ฟังก์ชันการเรียกข้อมูล
+const fetchOrders = (page, limit, query) => {
+  setIsLoading(true); // เริ่มโหลดข้อมูล
+  getAllHistoryOrder(token, page, limit, query).then(() => {
+    setIsLoading(false); // โหลดเสร็จ
+    setIsFirstLoad(false); // โหลดครั้งแรกเสร็จแล้ว
+  });
+};
+useEffect(() => {
+  setIsFirstLoad(true); // กำหนดเป็นการโหลดครั้งแรก
+  fetchOrders(pageOrders, limitOrders, searchQuery);
+}, [token, pageOrders, limitOrders]);
 
   // การคำนวณจำนวนหน้า
   const totalPages = Math.ceil(totalHistoryOrders / limitOrders);
@@ -60,7 +69,7 @@ const HistoryCart = () => {
     setPageOrders(1); // Reset to first page
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     debounceTimeout.current = setTimeout(() => {
-      getAllHistoryOrder(token, 1, limitOrders, value);
+      fetchOrders(1, limitOrders, value); // โหลดข้อมูลการค้นหา
     }, 500);
   };
 
@@ -71,11 +80,11 @@ const HistoryCart = () => {
           ประวัติการสั่งซื้อ
         </h1>
         <div className="md:hidden ">
-        <SearchTable
-          handleSearch={handleSearchChange}
-          textSearch="Search Order Cart"
-        />
-      </div>
+          <SearchTable
+            handleSearch={handleSearchChange}
+            textSearch="Search Order Cart"
+          />
+        </div>
       </div>
       <div className="bg-white sticky top-0 z-10 rounded-lg shadow-md p-1 md:p-4 my-4">
         <div className="flex flex-row text-xs md:text-base justify-between items-center md:gap-4">
@@ -102,9 +111,9 @@ const HistoryCart = () => {
 
       {/* รายการสั่งซื้อ */}
       <div className="space-y-8 mt-4">
-        {historyOrders.length === 0 ? (
-          <p className="text-center text-gray-600 py-4">ไม่พบคำสั่งซื้อ</p>
-        ) : (
+        {isFirstLoad ? (
+          <SkeletonHistoryCart count={3} />
+        ) : historyOrders.length > 0 ? (
           historyOrders?.map((order, index) => (
             <div
               key={order.id}
@@ -167,6 +176,8 @@ const HistoryCart = () => {
               </div>
             </div>
           ))
+        ) : (
+          <p className="text-center text-gray-600 py-4">ไม่พบคำสั่งซื้อ</p>
         )}
       </div>
 
