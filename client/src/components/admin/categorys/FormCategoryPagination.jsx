@@ -6,20 +6,15 @@ import {
 } from "../../../api/category";
 import useEcomStore from "../../../store/ecom-store";
 import { toast } from "react-toastify";
-import ConfirmDialog from "../../ui/ConfirmDialog";
+import ConfirmDialog from "../../ui/admin/ConfirmDialog";
 import PaginationTable from "../../ui/admin/PaginationTable";
 import EntriesPerPageSelect from "../../ui/EntriesPerPageSelect ";
 import SearchTable from "../../ui/admin/SearchTable";
 import CategoryTableDesktop from "./CategoryTableDesktop";
 import CategoryTableMobile from "./CategoryTableMobile";
 const FormCategoryPagination = () => {
-  const {
-    token,
-    categories,
-    totalCategory,
-    getCategoryPagination,
-    isLoading,
-  } = useEcomStore((state) => state);
+  const { token, categories, totalCategory, getCategoryPagination, isLoading } =
+    useEcomStore((state) => state);
 
   const [pageCategory, setPageCategory] = useState(1);
   const [limitCategory, setLimitCategory] = useState(10);
@@ -36,8 +31,7 @@ const FormCategoryPagination = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFirstLoad, setIsFirstLoad] = useState(true); // เพิ่มสถานะสำหรับการโหลดครั้งแรก
   const debounceTimeout = useRef(null); // For debouncing search
-  console.log('categories',categories)
-  console.log(totalCategory)
+
   useEffect(() => {
     getCategoryPagination(
       token,
@@ -88,9 +82,7 @@ const FormCategoryPagination = () => {
     const newLimit = parseInt(e.target.value, 10);
     setLimitCategory(newLimit === totalCategory ? totalCategory : newLimit); // ถ้าเลือก All ให้ใช้ totalUsers
     setPageCategory(1); // รีเซ็ตไปหน้าแรก
-    getCategoryPagination(
-      token, 1, newLimit, sortOrder
-    );
+    getCategoryPagination(token, 1, newLimit, sortOrder);
   };
 
   const handleAddSubmit = async (e) => {
@@ -221,28 +213,21 @@ const FormCategoryPagination = () => {
     setPageCategory(1); // Reset to first page
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     debounceTimeout.current = setTimeout(() => {
-      getCategoryPagination(
-        token,
-        1,
-        limitCategory,
-        sortBy,
-        sortOrder,
-        value
-      );
+      getCategoryPagination(token, 1, limitCategory, sortBy, sortOrder, value);
     }, 500);
   };
 
   return (
-    <div className="grid grid-cols-1 md:block overflow-x-auto p-5 bg-white shadow-lg">
+    <div className="grid grid-cols-1 xl:block xl:overflow-x-auto p-5 bg-white shadow-lg">
       <div className="flex justify-between items-center mb-3">
-        <h1 className="font-bold text-sm md:text-2xl">Category Management</h1>
+        <h1 className="font-bold text-base md:text-2xl">Category Management</h1>
         <h1 className="font-bold text-xs md:text-xl">
           ทั้งหมด {totalCategory} รายการ
         </h1>
       </div>
 
       {/* ฟอร์มเพิ่มหมวดหมู่ */}
-      <form className="flex gap-1 md:gap-4" onSubmit={handleAddSubmit}>
+      <form className="flex gap-1 xl:gap-4 mb-3" onSubmit={handleAddSubmit}>
         <input
           type="text"
           value={name}
@@ -257,18 +242,18 @@ const FormCategoryPagination = () => {
           Add Category
         </button>
       </form>
-      <br />
-      <hr />
-      <br />
 
-      <div className="mb-3 flex flex-col space-y-2 md:space-y-0 md:flex-row md:justify-between">
+      <div className="mb-3 flex flex-col space-y-2 xl:space-y-0 xl:flex-row xl:justify-between">
         <EntriesPerPageSelect
           limit={limitCategory}
           total={totalCategory}
           onLimitChange={handleLimitChange}
           totalItems={totalCategory}
         />
-        <SearchTable handleSearch={handleSearchChange} textSearch="Search Category"/>
+        <SearchTable
+          handleSearch={handleSearchChange}
+          textSearch="Search Category"
+        />
       </div>
 
       {/* Desktop List */}
@@ -305,8 +290,6 @@ const FormCategoryPagination = () => {
         handleCancelEdit={handleCancelEdit}
         isEditing={isEditing}
       />
-
-
 
       {/* Pagination */}
       <div className="mt-4 flex justify-center">
