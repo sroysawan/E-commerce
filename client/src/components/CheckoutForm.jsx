@@ -68,9 +68,9 @@ export default function CheckoutForm() {
   };
 
   return (
-    <div className="mx-6 mt-4">
+    <div className="container mx-auto px-2 md:px-0 lg:px-2 xl:px-0 my-4 xl:mt-8">
       <form
-        className="stripe-form space-y-6"
+        className="stripe-form space-y-6 "
         id="payment-form"
         onSubmit={handleSubmit}
       >
