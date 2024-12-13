@@ -55,16 +55,18 @@ const NewRegister = () => {
     }
   }, [user, navigate]);
 
+
+  // console.log(passwordScore);
   const onSubmit = async (data) => {
-    // console.log(data);
     // const passwordScore = zxcvbn(data.password).score;
-    // if (passwordScore < 3) {
-    //   toast.warning("Password not strong")
-    //   return
-    // }
+    // console.log(passwordScore);
+    if (passwordScore <= 2) {
+      toast.warning("Password is not strong");
+      return
+    }
     try {
       const res = await axios.post("http://localhost:5000/api/register", data);
-      console.log(res);
+      // console.log(res);
       // navigate('/login')
       toast.success(res.data, {
         onClose: () => navigate("/login", { state: { fromRegister: true } }), // ส่ง state ไปยังหน้า Login
@@ -81,7 +83,7 @@ const NewRegister = () => {
   //   console.log(dis)
 
   return (
-    <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="px-10 py-16 mx-auto md:mx-auto md:max-w-screen-xl lg:px-8">
       <div className="mx-auto max-w-lg">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -100,21 +102,6 @@ const NewRegister = () => {
                 `}
               placeholder="Enter Username"
             />
-            {/* <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="size-4 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-              </svg>
-            </span> */}
             {errors.name && (
               <p className="text-red-500 text-sm">{errors.name.message}</p>
             )}
