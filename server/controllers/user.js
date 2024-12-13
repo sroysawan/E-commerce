@@ -1,8 +1,13 @@
 const prisma = require("../config/prisma");
 
-
 exports.listUsers = async (req, res) => {
-  const { page, limit, sortBy = "createdAt", sortOrder = "asc", query = "" } = req.query;
+  const {
+    page,
+    limit,
+    sortBy = "createdAt",
+    sortOrder = "asc",
+    query = "",
+  } = req.query;
 
   // กำหนดค่าเริ่มต้น
   const take = limit && parseInt(limit) > 0 ? parseInt(limit) : undefined;
@@ -19,27 +24,25 @@ exports.listUsers = async (req, res) => {
           [field]: sortOrders[index] || "asc",
         }))
       : undefined; // ถ้าเป็น default ไม่ต้อง Sort
-// const orderBy =
-//   sortBy !== "default"
-//     ? sortByFields.map((field, index) => ({
-//         [field]: sortOrders[index] || "asc",
-//       }))
-//     : [{ createdAt: "asc" }]; // ตั้งค่า default เป็น createdAt
-
-
+  // const orderBy =
+  //   sortBy !== "default"
+  //     ? sortByFields.map((field, index) => ({
+  //         [field]: sortOrders[index] || "asc",
+  //       }))
+  //     : [{ createdAt: "asc" }]; // ตั้งค่า default เป็น createdAt
 
   try {
     // เงื่อนไขการค้นหา
+    const lowerQuery = query?.toLowerCase();
     const where = query
-  ? {
-      OR: [
-        { email: { contains: query,  } },
-        { name: { contains: query,  } },
-        { role: { contains: query,  } },
-      ],
-    }
-  : {}; // เปลี่ยน undefined เป็น {} เพื่อป้องกันข้อผิดพลาด
-
+      ? {
+          OR: [
+            { email: { contains: lowerQuery,  mode: "insensitive"  } },
+            { name: { contains: lowerQuery,  mode: "insensitive"  } },
+            // { role: { contains: query,  } },
+          ],
+        }
+      : {}; // เปลี่ยน undefined เป็น {} เพื่อป้องกันข้อผิดพลาด
 
     // ดึงข้อมูลจากฐานข้อมูล
     const users = await prisma.user.findMany({
@@ -78,7 +81,6 @@ exports.listUsers = async (req, res) => {
     });
   }
 };
-
 
 exports.changeStatus = async (req, res) => {
   try {
@@ -418,19 +420,46 @@ exports.saveOrder = async (req, res) => {
 //     }
 // }
 
+
+// History Cart User
 exports.getOrder = async (req, res) => {
-  const { page, limit } = req.query;
+  const { page, limit, query="" } = req.query;
 
   // ตรวจสอบ limit, ถ้าไม่มีหรือเป็น 0 จะดึงข้อมูลทั้งหมด
   const take = limit && parseInt(limit) > 0 ? parseInt(limit) : undefined;
   const skip = take && page ? (parseInt(page) - 1) * take : undefined;
 
+  const lowerQuery = query?.toLowerCase();
+  const searchCondition = query
+    ? {
+        OR: [
+          {
+            products: {
+              some: {
+                product: {
+                  title: { contains: lowerQuery,mode: "insensitive" },
+                },
+              },
+            },
+          },
+        ],
+      }
+    : {};
+
+  // รวมเงื่อนไข orderedById และ searchCondition
+  const where = {
+    AND: [
+      { orderedById: Number(req.user.id) }, // กรองคำสั่งซื้อของผู้ใช้งานปัจจุบัน
+      searchCondition, // เงื่อนไขการค้นหา
+    ],
+  };
   try {
     // ดึงข้อมูลคำสั่งซื้อ
     const orders = await prisma.order.findMany({
-      where: {
-        orderedById: Number(req.user.id),
-      },
+      where,
+      // where: {
+      //   orderedById: Number(req.user.id),
+      // },
       skip: skip,
       take: take,
       orderBy: {
@@ -447,18 +476,21 @@ exports.getOrder = async (req, res) => {
 
     // นับจำนวนคำสั่งซื้อทั้งหมด
     const totalOrdersHistory = await prisma.order.count({
-      where: {
-        orderedById: Number(req.user.id),
-      },
+      where,
     });
 
     // ตรวจสอบว่าไม่มีคำสั่งซื้อ
     if (!orders || orders.length === 0) {
-      return res.status(404).json({
-        ok: false,
+      return res.status(200).json({
+        orders: [], // อาร์เรย์ว่าง
+        total: 0,
+        page: parseInt(page) || null,
+        limit: parseInt(limit) || null,
+        ok: true,
         message: "No Orders Found",
       });
     }
+    
 
     // ส่งข้อมูลกลับ
     res.json({
