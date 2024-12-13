@@ -1,7 +1,7 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
-import React, { useEffect } from "react";
+import React from "react";
 import useEcomStore from "../../store/ecom-store";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { numberFormat } from "../../utils/number";
 const CartCard = () => {
   const navigate = useNavigate();
@@ -24,26 +24,25 @@ const CartCard = () => {
   
 
   return (
-    <div className="sticky top-24 grid grid-rows-[auto,1fr,auto] h-[87vh]">
-      <div className="bg-gray-300 shadow-lg p-4 rounded-xl flex flex-col h-full">
-        <h1 className="text-2xl font-bold">
+    <div className="sticky top-24 grid grid-rows-[auto,1fr,auto] h-full bg-gray-300 xl:rounded px-2 py-1 xl:p-4">
+        <h1 className="text-xl xl:text-2xl font-bold py-2 xl:py-0">
           มีสินค้าในตะกร้า {carts.length} ชิ้น
         </h1>
 
         {/* เช็คเงื่อนไข ถ้าไม่มีสินค้า */}
         {carts.length === 0 ? (
-          <div className="border p-2 h-[60vh] overflow-y-auto ">
+          <div className="border p-2 h-[60vh] overflow-y-auto mb-3">
             <div className="flex-1 flex items-center justify-center my-2 text-red-500 text-2xl font-bold">
               ไม่มีสินค้าในตะกร้า
             </div>
           </div>
         ) : (
-          <div className="border p-2 h-[60vh] overflow-y-auto ">
+          <div className="rounded-lg md:pr-1 h-[60vh] overflow-y-auto mb-3">
             {/* Card */}
             {carts.map((item, index) => (
               <div
                 key={index}
-                className="bg-white p-2 rounded-md shadow-md mb-4"
+                className="bg-white p-2 rounded-md shadow-md mb-2"
               >
                 {/* Row 1 */}
                 <div className="flex justify-between mb-2">
@@ -60,8 +59,8 @@ const CartCard = () => {
                       </div>
                     )}
                     <div>
-                      <p className="font-bold">{item.title}</p>
-                      <p className="text-sm line-clamp-1">{item.description}</p>
+                      <p className="text-sm md:text-base font-bold">{item.title}</p>
+                      <p className="text-xs md:text-sm line-clamp-1">{item.description}</p>
                     </div>
                   </div>
                   {/* Right */}
@@ -129,21 +128,21 @@ const CartCard = () => {
 
           {carts.length !== 0 ? (
             
-              <button className="mt-4 bg-green-500 text-white w-full py-2 rounded-md shadow-md hover:bg-green-700"
+              <button className="mt-2 md:mt-4 bg-green-500 text-white w-full py-2 rounded-md shadow-md hover:bg-green-700"
               onClick={handleNavigateToCartCheck}>
                 ดำเนินการชำระเงิน
               </button>
             
           ) : (
             <button
-              className="bg-black text-white w-full rounded-lg py-2 shadow-md "
+              className="bg-black mt-2 md:mt-4 text-white w-full rounded-md py-2 shadow-md "
               disabled
             >
               ไม่มีสินค้า
             </button>
           )}
         </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 };
