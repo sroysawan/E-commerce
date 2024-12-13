@@ -2,11 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-[#F6F9FC];
+@layer base {
+  body {
+    @apply bg-[#F6F9FC];
+  }
+  
 }
 
 @layer components {
+  /* === Admin Dashboard === */
   .dashboard-box {
     @apply bg-white shadow-lg p-4 min-w-0 flex-1 h-40 grid;
   }
@@ -17,4 +21,44 @@ body {
   .icon-bg-circle {
     @apply absolute w-16 h-16 top-8 bg-gray-500/50 rounded-full z-0;
   }
+
+  .icons-admin {
+    @apply w-9 md:w-12 h-9 md:h-12
+  }
+
+  /* === Sidebar Admin Buttons === */
+  .nav-link {
+    @apply text-gray-300 px-4 py-2 rounded flex items-center transition-all;
+  }
+
+  .nav-link:not(.nav-link-active):hover  {
+    @apply bg-gray-800 text-white;
+  }
+
+  .nav-link-active {
+    @apply bg-gray-700 text-white;
+  }
+  
+
+
+  /* === Icon Category === */
+  .icons {
+    @apply w-4 h-4 md:w-6 md:h-6
+  }
+
+}
+
+@layer utilities {
+  .scrollbar-stable {
+    padding-left: 40px;
+    scrollbar-gutter: stable; /* รักษาความกว้างไว้เมื่อ Scrollbar มีหรือไม่มี */
+  }
+
+  .centered-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
 }
