@@ -1,192 +1,159 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useEcomStore from "../../store/ecom-store";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import { numberFormat } from "../../utils/number";
-const SearchCard = () => {
-  const getProduct = useEcomStore((state) => state.getProduct);
-  const products = useEcomStore((state) => state.products);
+import { SkeletonSearchCard } from "../ui/Skeletons";
+import debounce from "lodash.debounce";
 
-  const actionSearchFilters = useEcomStore(
-    (state) => state.actionSearchFilters
+const SearchCard = ({ loading }) => {
+  const filterProductsByCategoryAndPrice = useEcomStore(
+    (state) => state.filterProductsByCategoryAndPrice
   );
-
+  const filteredProducts = useEcomStore((state) => state.filteredProducts);
   const getCategory = useEcomStore((state) => state.getCategory);
   const categories = useEcomStore((state) => state.categories);
 
-  const [text, setText] = useState("");
-  const [categorySelected, setCategorySelected] = useState([]);
-  const [price, setPrice] = useState([0, 30000]);
-  const [ok, setOk] = useState(false);
+  const [categorySelected, setCategorySelected] = useState([]); // เก็บหมวดหมู่ที่เลือก
+  const [price, setPrice] = useState([0, 0]); // เก็บช่วงราคาที่เลือก
+  const [maxPrice, setMaxPrice] = useState(null); // เก็บราคาสูงสุดที่ใช้ใน Slider
+  const [error, setError] = useState(""); // ข้อความแสดงข้อผิดพลาดเกี่ยวกับช่วงราคา
+  const isMaxPriceSet = useRef(false); // ใช้ตรวจสอบว่า maxPrice ถูกตั้งค่าแล้วหรือยัง
 
+  // Create debounced filter function
+  const debouncedFilter = useRef(
+    debounce((category, priceRange) => {
+      filterProductsByCategoryAndPrice({
+        category: category.length ? category : undefined,
+        price: priceRange,
+      });
+    }, 500)
+  ).current;
+
+  //ดึงสินค้า หมวดหมู่ทั้งหมดจาก API หรือ Store เมื่อ component โหลดครั้งแรก
   useEffect(() => {
     getCategory();
+
+    return () => {
+      debouncedFilter.cancel();
+    };
   }, []);
 
-  //step 1 search text title
+  //ดึงราคาสูงสุดของสินค้ามาตั้งค่า maxPrice และ price ครั้งแรกที่มีการโหลดสินค้า
   useEffect(() => {
-    //หน่วงเวลาการค้นหา เผื่อ server เดดสะมอเล่
-    const delay = setTimeout(() => {
-      //ถ้ามีข้อความให้ search
-      if (text) {
-        actionSearchFilters({
-          query: text,
-        });
-      } else {
-        //ถ้าไม่มีจะโชว์ Product เหมือนเดิม
-        getProduct();
-      }
-      //clear
-      return () => clearTimeout(delay);
-    }, 300);
-  }, [text]); //จะจ้องมองการทำงานของ text ตลอดเวลา จะเรียก useEffect ทุกครั้งที่มีการ search
-  // console.log(text)
+    if (filteredProducts.length > 0 && !isMaxPriceSet.current) {
+      const highestPrice = Math.max(...filteredProducts.map((p) => p.price));
+      setMaxPrice(highestPrice);
+      setPrice([0, highestPrice]);
+      isMaxPriceSet.current = true;
+    }
+  }, [filteredProducts]);
 
-  //step 2 search by category
+  useEffect(() => {
+    if (price[0] > price[1]) {
+      setError("ช่วงราคาผิดพลาด: Min ต้องไม่มากกว่า Max");
+    } else {
+      setError("");
+      debouncedFilter(categorySelected, price);
+    }
+  }, [categorySelected, price]);
+
+  //เพิ่มหรือลบหมวดหมู่ที่เลือกตามค่าที่ผู้ใช้คลิกใน checkbox
   const handleCheck = (e) => {
-    // console.log(e.target.value)
-    const inCheck = e.target.value; //ค่าที่เราติ๊ก
-    const inState = [...categorySelected]; //[] empty array ค่าที่ติ๊กต้องมาอยู่ในนี้
-    const findCheck = inState.indexOf(inCheck); //indexOf เข้าไปหา array ในนั้น ถ้าเจอได้ตำแหน่ง ถ้าไม่เจอจะ return -1
-
-    if (findCheck === -1) {
-      inState.push(inCheck);
-    } else {
-      inState.splice(findCheck, 1);
-    }
-    setCategorySelected(inState);
-
-    //ถ้าติ๊กเลือกจะส่งค่าไป backend
-    if (inState.length > 0) {
-      //ส่งค่าไป backend
-      actionSearchFilters({
-        category: inState,
-      });
-    } else {
-      //ถ้าไม่ติ๊กเลย จะให้แสดงProduct
-      getProduct();
-    }
+    const value = e.target.value;
+    const updatedCategories = categorySelected.includes(value)
+      ? categorySelected.filter((id) => id !== value)
+      : [...categorySelected, value];
+    setCategorySelected(updatedCategories);
   };
-  // console.log(categorySelected)
 
-  //step 3 search price
-  useEffect(() => {
-    actionSearchFilters({ price });
-  }, [ok]);
-  const handelPrice = (value) => {
-    // console.log(value)
+  //อัปเดตช่วงราคาตามการเลื่อน Slider
+  const handlePriceChange = (value) => {
     setPrice(value);
-    setTimeout(() => {
-      setOk(!ok);
-    }, 300);
   };
+
+  const clearAllFilters = () => {
+    setCategorySelected([]);
+    setPrice([0, maxPrice]);
+  };
+
+  if (loading) {
+    return <SkeletonSearchCard />; // Render Skeleton UI when loading
+  }
+
   return (
-    <div className="sticky top-24 grid gap-y-5 grid-rows-[15%_30%_15%] h-[87vh]">
-      <div className="bg-gray-300 shadow-lg p-4 rounded-xl">
-        <div className="space-y-2">
-          <h1 className="text-xl font-bold">ค้นหาสินค้า</h1>
-          {/* Search By Text  */}
-          <div className="relative">
-            <input
-              onChange={(e) => setText(e.target.value)}
-              type="text"
-              placeholder="ค้นหาสินค้า"
-              // className="border rounded-md w-full mb-4 px-2"
-              className="w-full h-10 py-1 rounded-lg border border-black p-4 text-md shadow-md hover:border-black"
-            />
-            <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </span>
-          </div>
+    <div className="sticky top-24 grid gap-y-5">
+      <div className="bg-white h-full w-full shadow-lg p-6 rounded-xl space-y-4">
+        <div className="flex justify-between">
+          <p className="font-bold text-xl">ตัวกรอง</p>
+          <button
+            onClick={clearAllFilters}
+            className="text-sm text-blue-500 hover:text-blue-700"
+          >
+            ล้างทั้งหมด
+          </button>
         </div>
-      </div>
-      <div className="bg-gray-300 shadow-lg p-4 rounded-xl">
         <div className="space-y-2">
-          <h1 className="text-xl font-bold">หมวดหมู่สินค้า</h1>
+          <h1 className="text-lg font-semibold">หมวดหมู่สินค้า</h1>
           <div>
-            {categories.map((item, index) => (
-              <div key={index} className="flex items-center gap-2 text-lg">
+            {categories?.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center gap-2 text-base uppercase"
+              >
                 <input
                   type="checkbox"
                   className="size-4 rounded border-gray-300 hover:cursor-pointer"
                   value={item.id}
                   onChange={handleCheck}
+                  checked={categorySelected.includes(item.id.toString())} // หรือ Number(item.id) ขึ้นอยู่กับ type
                 />
                 <label>{item.name}</label>
               </div>
             ))}
           </div>
         </div>
-      </div>
 
-      <div className="bg-gray-300 shadow-lg p-4 rounded-xl">
+        <hr />
+
+        {/* Search Price */}
         <div className="space-y-2">
-          <h1 className="text-xl font-bold">ค้นหาราคา</h1>
-          <div>
-            <div className="flex justify-between">
-              <span>Min : {numberFormat(price[0])}</span>
-              <span>Max : {numberFormat(price[1])}</span>
-            </div>
-            <Slider
-              onChange={handelPrice}
-              range
-              min={0}
-              max={30000}
-              defaultValue={[0, 30000]}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Search By Category  */}
-      {/* <div className="space-y-2">
-        <h1 className="text-xl font-bold">หมวดหมู่สินค้า</h1>
-        <div>
-          {categories.map((item, index) => (
-            <div key={index} className="flex items-center gap-2 text-lg" >
-              <input
-                type="checkbox"
-                className="size-4 rounded border-gray-300 hover:cursor-pointer"
-                value={item.id}
-                onChange={handleCheck}
+          <h1 className="text-lg font-semibold">ค้นหาราคา</h1>
+          {maxPrice !== null ? (
+            <>
+              <div className="flex justify-between gap-4">
+                <input
+                  type="number"
+                  min={0}
+                  max={price[1]}
+                  value={price[0]}
+                  onChange={(e) => setPrice([+e.target.value, price[1]])}
+                  className="border p-2 rounded"
+                />
+                <span className="p-2 text-xl">-</span>
+                <input
+                  type="number"
+                  min={price[0]}
+                  max={maxPrice}
+                  value={price[1]}
+                  onChange={(e) => setPrice([price[0], +e.target.value])}
+                  className="border p-2 rounded"
+                />
+              </div>
+              <Slider
+                range
+                min={0}
+                max={maxPrice}
+                value={price}
+                onChange={handlePriceChange}
               />
-              <label>{item.name}</label>
-            </div>
- 
-          ))}
+              {error && <p className="text-red-500">{error}</p>}
+            </>
+          ) : (
+            // <p>กำลังโหลดข้อมูลราคา...</p>
+            ""
+          )}
         </div>
       </div>
-      <hr /> */}
-      {/* Search Price  */}
-      {/* <div className="space-y-2">
-        <h1 className="text-xl font-bold">ค้นหาราคา</h1>
-        <div>
-          <div className="flex justify-between">
-            <span>Min : {numberFormat(price[0])}</span>
-            <span>Max : {numberFormat(price[1])}</span>
-          </div>
-          <Slider
-            onChange={handelPrice}
-            range
-            min={0}
-            max={30000}
-            defaultValue={[0, 30000]}
-          />
-        </div>
-      </div> */}
     </div>
   );
 };
