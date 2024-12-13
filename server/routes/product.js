@@ -10,8 +10,6 @@ const {
   remove,
   listby,
   searchFilters,
-  listByCategory,
-  searchInCategory,
   createImages,
   removeImage,
 } = require("../controllers/product");
@@ -19,8 +17,6 @@ const { authCheck, adminCheck } = require("../middlewares/authCheck");
 
 router.post("/product", create);
 
-//old
-// router.get("/products/:count", list);
 
 router.get("/products", list);
 
@@ -33,8 +29,6 @@ router.delete("/product/:id", remove);
 router.post("/productby", listby);
 
 router.post("/search/filters", searchFilters);
-
-router.get("/category/:name", listByCategory);
 
 router.post("/images", authCheck, adminCheck, createImages);
 
