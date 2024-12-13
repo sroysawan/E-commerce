@@ -23,8 +23,7 @@ const TableUserPagination = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFirstLoad, setIsFirstLoad] = useState(true); // เพิ่มสถานะสำหรับการโหลดครั้งแรก
   const debounceTimeout = useRef(null); // For debouncing search
-console.log('allUsers',allUsers)
-console.log(totalUsers)
+
   useEffect(() => {
     getAllUserPagination(
       token,
