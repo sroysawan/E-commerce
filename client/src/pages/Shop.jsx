@@ -121,7 +121,6 @@ const Shop = () => {
 
 
   const toggleSideBarFilter = () => {
-    console.log("first");
     setIsSidebarFilterOpen(!isSidebarFilterOpen);
   };
   const shouldShowContent = !showSkeleton && isDataReady;
