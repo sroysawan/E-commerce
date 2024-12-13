@@ -2,26 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import useEcomStore from "../../../store/ecom-store";
 import { changeOrderStatus } from "../../../api/admin";
 import { toast } from "react-toastify";
-import { numberFormat } from "../../../utils/number";
-import { dateFormat } from "../../../utils/dateFormat";
 import PaginationTable from "../../ui/admin/PaginationTable";
 import EntriesPerPageSelect from "../../ui/EntriesPerPageSelect ";
 import SearchTable from "../../ui/admin/SearchTable";
-import SortTable from "../../ui/SortTable";
-import SkeletonLoaderTable from "../../ui/Skeletons/SkeletonLoaderTable";
 import OrderTableDesktop from "./OrderTableDesktop";
-import { statusColor } from "../../../utils/statusColor";
 import OrderTableMobile from "./OrderTableMobile";
 const TableOrderPagination = () => {
-  const {
-    token,
-    orders,
-    totalOrders,
-    page,
-    limit,
-    getOrderPagination,
-    isLoading,
-  } = useEcomStore((state) => state);
+  const { token, orders, totalOrders, getOrderPagination, isLoading } =
+    useEcomStore((state) => state);
 
   const [pageOrder, setPageOrder] = useState(1);
   const [limitOrder, setLimitOrder] = useState(10);
@@ -106,7 +94,7 @@ const TableOrderPagination = () => {
       });
   };
 
-  const toggleSortUser = (field) => {
+  const toggleSortOrder = (field) => {
     if (sortBy === field) {
       // Toggle ระหว่าง asc, desc, และ firstToggle
       const newSortOrder =
@@ -140,14 +128,14 @@ const TableOrderPagination = () => {
     setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
   };
   return (
-    <div className="grid grid-cols-1 md:block overflow-x-auto p-5 bg-gray-50 shadow-lg">
+    <div className="grid grid-cols-1 xl:block overflow-x-auto p-5 bg-gray-50 shadow-lg">
       <div className="flex justify-between items-center mb-3">
-        <h1 className="font-bold text-sm md:text-2xl">Order Management</h1>
-        <h1 className="font-bold text-xs md:text-xl">
+        <h1 className="font-bold text-base xl:text-2xl">Order Management</h1>
+        <h1 className="font-bold text-xs xl:text-xl">
           ทั้งหมด {totalOrders} รายการ
         </h1>
       </div>
-      <div className="mb-3 flex flex-col space-y-2 md:space-y-0 md:flex-row md:justify-between">
+      <div className="mb-3 flex flex-col space-y-2 xl:space-y-0 xl:flex-row xl:justify-between">
         <EntriesPerPageSelect
           limit={limitOrder}
           total={totalOrders}
@@ -163,12 +151,12 @@ const TableOrderPagination = () => {
 
       <OrderTableDesktop
         isFirstLoad={isFirstLoad}
-        toggleSortUser={toggleSortUser}
+        toggleSortOrder={toggleSortOrder}
         orders={orders}
         sortOrder={sortOrder}
         sortBy={sortBy}
-        page={page}
-        limit={limit}
+        pageOrder={pageOrder}
+        limitOrder={limitOrder}
         handleChangeOrderStatus={handleChangeOrderStatus}
       />
 
@@ -180,6 +168,7 @@ const TableOrderPagination = () => {
         expandedOrderId={expandedOrderId}
         handleChangeOrderStatus={handleChangeOrderStatus}
         toggleOrderDetails={toggleOrderDetails}
+        toggleSortOrder={toggleSortOrder}
       />
 
       {/* Pagination */}
