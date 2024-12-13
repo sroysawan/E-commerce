@@ -29,7 +29,10 @@
 ## 🚀 เทคโนโลยีที่ใช้
 - **Frontend**: ReactJS, TailwindCSS, Material-UI
 - **Backend**: Node.js, Express.js, Prisma
-- **ฐานข้อมูล**: MySQL, Supabase
-- **ภาพสินค้า**: Cloudinary
-- **โฮสต์**: Vercel
+- **Database**: MySQL, Supabase
+- **Image**: Cloudinary
+- **Host**: Vercel
 
+---
+
+ขอบคุณที่สนใจโปรเจกต์ของเรา! ❤️
