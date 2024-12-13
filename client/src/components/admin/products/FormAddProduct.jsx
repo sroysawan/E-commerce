@@ -57,7 +57,7 @@ const FormAddProduct = () => {
   return (
     <div className="p-4 xl:p-5 bg-white shadow-lg ">
       <form onSubmit={handelSubmit} className="space-y-6">
-        <h1 className="text-2xl font-bold text-gray-700">Add Product</h1>
+        <h1 className="font-bold text-base xl:text-2xl">Add Product</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-600">
