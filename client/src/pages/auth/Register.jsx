@@ -21,7 +21,7 @@ const Register = () => {
   }, [user, navigate]);
 
   const handleOnchange = (e) => {
-    console.log(e.target.name, e.target.value);
+    // console.log(e.target.name, e.target.value);
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -33,12 +33,12 @@ const Register = () => {
     if (form.password !== form.confirmPassword) {
       return alert("Confirm Password is not match");
     }
-    console.log(form);
+    // console.log(form);
 
     //Send to Back
     try {
       const res = await axios.post("http://localhost:5000/api/register", form);
-      console.log(res);
+      // console.log(res);
       // navigate('/login')
       toast.success(res.data, {
         onClose: () => navigate("/login", { state: { fromRegister: true } }), // ส่ง state ไปยังหน้า Login
