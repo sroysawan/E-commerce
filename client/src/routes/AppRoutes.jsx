@@ -3,10 +3,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import Cart from "../pages/Cart";
+import CartCheck from "../pages/CartCheck";
 import History from "../pages/user/History";
 import CheckOut from "../pages/CheckOut";
 import Login from "../pages/auth/Login";
-// import Register from "../pages/auth/Register";
 import Layout from "../layouts/Layout";
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import Dashboard from "../pages/admin/Dashboard";
@@ -22,6 +22,9 @@ import Payment from "../pages/user/Payment";
 import ManageOrder from "../pages/admin/ManageOrder";
 import NewRegister from "../pages/auth/NewRegister";
 import CategoryDetails from "../components/category/CategoryDetails";
+import ProductDetail from "../components/product/ProductDetail";
+import ErrorFallBack from "./ErrorFallBack";
+import ProductBySearch from "../components/product/ProductBySearch";
 
 const router = createBrowserRouter([
   //No login
@@ -32,16 +35,18 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "shop", element: <Shop /> },
       { path: "cart", element: <Cart /> },
+      { path: "cartcheck/:id", element: <CartCheck /> },
       { path: "checkout", element: <CheckOut /> },
       { path: "login", element: <Login /> },
-      // { path: "register", element: <Register /> }, //old
       { path: "register", element: <NewRegister /> },
       { path: "category/:id", element: <CategoryDetails /> },
+      { path: "product/:id/:slug", element: <ProductDetail /> },
+      { path: "product/:query", element: <ProductBySearch /> },
     ],
+    errorElement: <ErrorFallBack />, // กรณี route ไม่พบหรือ error
   },
   {
     path: "/admin",
-    // element: <LayoutAdmin />,
     element: <ProtectRouteAdmin element={<LayoutAdmin />}/>,
     children: [
       { index: true, element: <Dashboard /> },
@@ -51,16 +56,18 @@ const router = createBrowserRouter([
       { path: "manage", element: <Manage /> },
       { path: "orders", element: <ManageOrder /> },
     ],
+    errorElement: <ErrorFallBack />, // กรณี route ไม่พบหรือ error
   },
   {
     path: "/user",
-    // element: <LayoutUser />,
     element: <ProtectRouteUser element={<LayoutUser />}/>,
     children: [
-      { index: true, element: <HomeUser /> },
+      // { index: true, element: <HomeUser /> },
+      { index: true, element: <Home /> },
       { path: "payment", element: <Payment /> },
       { path: "history", element: <History /> },
     ],
+    errorElement: <ErrorFallBack />, // กรณี route ไม่พบหรือ error
   },
 ]);
 
