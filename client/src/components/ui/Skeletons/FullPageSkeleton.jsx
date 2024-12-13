@@ -4,11 +4,7 @@ import { Box, Grid2, Skeleton, Stack } from "@mui/material";
 
 export default function FullPageSkeleton() {
   return (
-    <Box
-      sx={{
-        mx: { xs: 1, md: 0 }, // Mobile: mx-2, Tablet: mx-4, Desktop: mx-6
-      }}
-    >
+    <Box>
       {/* Skeleton สำหรับ Carousel */}
 
       <Skeleton
