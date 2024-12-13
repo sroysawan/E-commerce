@@ -5,13 +5,17 @@ import debounce from "lodash.debounce";
 import { SkeletonSearchCard } from "../ui/Skeletons";
 import useEcomStore from "../../store/ecom-store";
 
-const RangePrice = ({loading,products }) => {
+const RangePrice = ({ loading, products }) => {
   const [price, setPrice] = useState([0, 0]);
   const [maxPrice, setMaxPrice] = useState(null);
   const [error, setError] = useState("");
   const isMaxPriceSet = useRef(false);
-  const filterProductsByPrice = useEcomStore((state) => state.filterProductsByPrice);
-  const setFilteredProducts = useEcomStore((state) => state.setFilteredProducts);
+  const filterProductsByPrice = useEcomStore(
+    (state) => state.filterProductsByPrice
+  );
+  const setFilteredProducts = useEcomStore(
+    (state) => state.setFilteredProducts
+  );
 
   // สร้าง debounced function สำหรับการ filter
   const debouncedPriceChange = useRef(
@@ -34,18 +38,18 @@ const RangePrice = ({loading,products }) => {
     }
   }, [products, setFilteredProducts]);
 
-// จัดการเมื่อราคาเปลี่ยน
-useEffect(() => {
-  if (!products || products.length === 0) return;
+  // จัดการเมื่อราคาเปลี่ยน
+  useEffect(() => {
+    if (!products || products.length === 0) return;
 
-  if (price[0] > price[1]) {
-    setError("ช่วงราคาผิดพลาด: Min ต้องไม่มากกว่า Max");
-    return;
-  }
+    if (price[0] > price[1]) {
+      setError("ช่วงราคาผิดพลาด: Min ต้องไม่มากกว่า Max");
+      return;
+    }
 
-  setError("");
-  debouncedPriceChange(products, price);
-}, [price, products]);
+    setError("");
+    debouncedPriceChange(products, price);
+  }, [price, products]);
 
   // Cleanup
   useEffect(() => {
@@ -58,13 +62,26 @@ useEffect(() => {
     setPrice(value);
   };
 
-    if (loading) {
+  const clearAllFilters = () => {
+    setPrice([0, maxPrice]);
+  };
+
+  if (loading) {
     return <SkeletonSearchCard />; // Render Skeleton UI when loading
   }
   return (
     <div className="sticky top-24 grid gap-y-5">
       <div className="bg-white h-full w-full shadow-lg md:p-3 xl:p-6 rounded-xl space-y-4">
-        <h1 className="text-lg font-bold">ค้นหาราคา</h1>
+        <div className="flex justify-between">
+          <p className="font-bold text-xl">ตัวกรอง</p>
+          <button
+            onClick={clearAllFilters}
+            className="text-sm text-blue-500 hover:text-blue-700"
+          >
+            ล้างทั้งหมด
+          </button>
+        </div>
+        <h1 className="text-lg font-semibold">ค้นหาราคา</h1>
         {maxPrice !== null && (
           <>
             <div className="flex justify-between gap-4">
