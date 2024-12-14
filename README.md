@@ -30,6 +30,7 @@
 - **Frontend**: ReactJS, TailwindCSS, Material-UI
 - **Backend**: Node.js, Express.js, Prisma
 - **Database**: MySQL, Supabase
+- **Payment**: Stripe
 - **Image**: Cloudinary
 - **Host**: Vercel
 
