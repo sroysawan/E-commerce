@@ -3,7 +3,7 @@ import React from "react";
 
 const SortTable = ({ toggleSort, data, sortOrder, sortBy }) => {
   return (
-    <button onClick={() => toggleSort(data)}>
+    <button onClick={() => toggleSort(data)} aria-label="sort">
       {/* {sortBy === "createdAt"&& <span>
     <ArrowUpDown size={15} /> 
     </span>} */}

@@ -97,6 +97,7 @@ const MainNav = () => {
               <button
                 onClick={toggleSearch}
                 className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 hover:text-red-500"
+                aria-label="search"
               >
                 <Search size={20} />
               </button>
@@ -123,7 +124,7 @@ const MainNav = () => {
                 {user ? (
                   <div className="relative">
                     <div className="flex items-center gap-2">
-                      <button type="button" onClick={toggleProfile}>
+                      <button onClick={toggleProfile} aria-label="user">
                         <div className="flex items-center gap-2">
                           <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 hover:border-red-500">
                             <User />
@@ -209,12 +210,14 @@ const MainNav = () => {
             <button
               onClick={toggleSearch}
               className="lg:hidden w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 hover:text-red-500"
+              aria-label="search"
             >
               <Search size={18} />
             </button>
             <button
               onClick={toggleProfile}
               className="text-gray-600 hover:text-red-500"
+              aria-label="hamberger menu"
             >
               {isProfileOpen ? (
                 <X size={28} />
@@ -249,6 +252,7 @@ const MainNav = () => {
                 <button
                   onClick={toggleSearch}
                   className="p-2 hover:text-red-500"
+                  aria-label="close search"
                 >
                   <X size={24} />
                 </button>

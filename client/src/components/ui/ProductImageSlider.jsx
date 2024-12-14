@@ -94,6 +94,7 @@ const ProductImageSlider = ({ images = [] }) => {
             <button
               className="absolute left-0 xl:-left-5  bg-gray-800 text-white p-1 md:p-2 rounded-full z-10 hover:bg-gray-600"
               onClick={goToPrevious}
+              aria-label="Previous slide"
             >
               <ArrowLeft />
             </button>
@@ -108,6 +109,7 @@ const ProductImageSlider = ({ images = [] }) => {
             <button
               className="absolute right-0 xl:-right-5 bg-gray-800 text-white p-1 md:p-2 rounded-full z-10 hover:bg-gray-600"
               onClick={goToNext}
+              aria-label="Next slide"
             >
               <ArrowRight />
             </button>
