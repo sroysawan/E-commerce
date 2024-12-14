@@ -52,6 +52,7 @@ const CartCard = () => {
                       <img
                         src={item.images[0].url}
                         className="w-16 h-16 rounded-md object-cover"
+                        alt={`Product ${item.title || "No title"}`}
                       />
                     ) : (
                       <div className="w-16 h-16 rounded-md bg-gray-200 flex items-center text-center">

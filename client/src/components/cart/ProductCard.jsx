@@ -69,10 +69,10 @@ const ProductCard = ({ item, view, loading }) => {
         {item.images && item.images.length > 0 ? (
           <img
             src={item.images[0].url}
-            // className="rounded-md w-full h-36 object-contain hover:scale-110 hover:duration-200"
             className={`rounded-md w-full object-contain hover:scale-110 hover:duration-200 ${
               item.quantity <= 0 ? "opacity-50" : ""
             } ${view === "list" ? "w-full h-24 md:h-36" : "h-24 md:h-36"}`}
+            alt={`ProductCard ${item.title || "No title"}`}
           />
         ) : (
           <div

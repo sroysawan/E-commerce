@@ -118,6 +118,7 @@ const UploadFile = ({ form, setForm , fileInputRef, setIsUploading,setAllImagesU
                 <img 
                     src={item.url} 
                     className="w-14 md:w-24 h-14 md:h-24 hover:scale-105"
+                    alt={`ProductUpload ${index+1}`}
                 />
                 <span 
                     className="absolute top-0 right-0 bg-red-700 px-2 py-0.5 rounded-full text-xs md:text-sm cursor-pointer hover:text-white"

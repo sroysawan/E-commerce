@@ -130,6 +130,7 @@ const ProductTableDesktop = ({
                 <img
                   src={item.images[0].url}
                   className="w-full h-24 object-contain rounded-lg border bg-white"
+                  alt={`Product ${item.title || "No title"}`}
                 />
               ) : (
                 <div className="w-full h-24 flex items-center justify-center bg-gray-200 text-gray-500 rounded-lg">

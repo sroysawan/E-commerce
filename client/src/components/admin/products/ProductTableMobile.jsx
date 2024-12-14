@@ -52,8 +52,8 @@ const ProductTableMobile = ({
                 {item.images.length > 0 ? (
                   <img
                     src={item.images[0].url}
-                    alt={item.title}
                     className="w-full h-full object-cover rounded-md"
+                    alt={`Product ${item.title || "No title"}`}
                   />
                 ) : (
                   <div className="w-full h-full rounded-md bg-gray-300 flex items-center justify-center text-sm">
