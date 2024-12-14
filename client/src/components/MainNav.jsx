@@ -124,12 +124,12 @@ const MainNav = () => {
                 {user ? (
                   <div className="relative">
                     <div className="flex items-center gap-2">
-                      <button onClick={toggleProfile} aria-label="user">
+                      <button onClick={toggleProfile} aria-label="profile">
                         <div className="flex items-center gap-2">
                           <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 hover:border-red-500">
                             <User />
                           </div>
-                          <span className=" text-red-500 transition hover:text-red-700">
+                          <span className=" text-red-500 transition hover:text-red-400">
                             {user.name.substring(0, user.name.indexOf(" ")) ||
                               user.name}
                           </span>
@@ -276,7 +276,7 @@ const MainNav = () => {
           <ul className="flex flex-col items-center gap-4 py-4">
             {user && (
               <li>
-                <span className=" text-red-500 transition hover:text-red-700 text-xl">
+                <span className=" text-red-500 transition hover:text-red-400 text-xl">
                   {user.name.substring(0, user.name.indexOf(" ")) || user.name}
                 </span>
               </li>
