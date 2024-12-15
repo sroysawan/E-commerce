@@ -5,7 +5,7 @@ import { numberFormat } from "../../utils/number";
 import { useNavigate } from "react-router-dom";
 import { createSlug } from "../../utils/slugFormat";
 import { toast } from "react-toastify";
-import {SkeletonProductCard} from '../ui/Skeletons'
+import { SkeletonProductCard } from "../ui/Skeletons";
 const ProductCard = ({ item, view, loading }) => {
   const actionAddtoCart = useEcomStore((state) => state.actionAddtoCart);
   const navigate = useNavigate();
@@ -42,9 +42,7 @@ const ProductCard = ({ item, view, loading }) => {
     }
   };
   if (loading) {
-    return (
-      <SkeletonProductCard view={view} />
-    );
+    return <SkeletonProductCard view={view} />;
   }
 
   return (
@@ -127,6 +125,7 @@ const ProductCard = ({ item, view, loading }) => {
           </span>
 
           <button
+            aria-label="cart"
             className={`rounded-md p-1.5 md:p-2 shadow-md 
               ${
                 item.quantity <= 0

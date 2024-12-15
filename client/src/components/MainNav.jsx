@@ -45,7 +45,6 @@ const MainNav = () => {
   //     setIsSearchOpen(false); // Close popup after search
   //   }
   // };
-  
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-30">
@@ -68,8 +67,8 @@ const MainNav = () => {
                   end
                   className={({ isActive }) =>
                     isActive
-                      ? "text-red-500 font-semibold"
-                      : "text-gray-500 transition hover:text-red-400"
+                      ? "text-red-600 font-semibold"
+                      : "text-gray-500 transition hover:text-red-500"
                   }
                 >
                   Home
@@ -80,8 +79,8 @@ const MainNav = () => {
                   to={"/shop"}
                   className={({ isActive }) =>
                     isActive
-                      ? "text-red-500 font-semibold"
-                      : "text-gray-500 transition hover:text-red-400"
+                      ? "text-red-600 font-semibold"
+                      : "text-gray-500 transition hover:text-red-500"
                   }
                 >
                   Shop
@@ -89,9 +88,7 @@ const MainNav = () => {
               </li>
             </ul>
             <div className="hidden lg:flex items-center">
-              <SearchText 
-              setIsSearchOpen={setIsSearchOpen}
-              />
+              <SearchText setIsSearchOpen={setIsSearchOpen} />
             </div>
             <div className="flex items-center gap-4">
               <button
@@ -106,7 +103,7 @@ const MainNav = () => {
                   to={"/cart"}
                   className={({ isActive }) =>
                     `w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 transition ${
-                      isActive ? "text-red-500" : "hover:text-red-500"
+                      isActive ? "text-red-600" : "hover:text-red-500"
                     }`
                   }
                 >
@@ -124,12 +121,18 @@ const MainNav = () => {
                 {user ? (
                   <div className="relative">
                     <div className="flex items-center gap-2">
-                      <button onClick={toggleProfile} aria-label="profile">
+                      <button
+                        onClick={toggleProfile}
+                        aria-label={`โปรไฟล์ของ ${
+                          user.name.substring(0, user.name.indexOf(" ")) ||
+                          user.name
+                        }`}
+                      >
                         <div className="flex items-center gap-2">
                           <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 hover:border-red-500">
                             <User />
                           </div>
-                          <span className=" text-red-500 transition hover:text-red-400">
+                          <span className=" text-red-600 transition hover:text-red-500">
                             {user.name.substring(0, user.name.indexOf(" ")) ||
                               user.name}
                           </span>
@@ -246,9 +249,7 @@ const MainNav = () => {
           <div className="fixed inset-x-0 top-0 bg-white p-4 shadow-lg z-50 animate-slide-down">
             <div className="container mx-auto ">
               <div className="flex justify-center items-center gap-4">
-                <SearchText 
-                setIsSearchOpen={setIsSearchOpen}
-                />
+                <SearchText setIsSearchOpen={setIsSearchOpen} />
                 <button
                   onClick={toggleSearch}
                   className="p-2 hover:text-red-500"
@@ -276,7 +277,7 @@ const MainNav = () => {
           <ul className="flex flex-col items-center gap-4 py-4">
             {user && (
               <li>
-                <span className=" text-red-500 transition hover:text-red-400 text-xl">
+                <span className=" text-red-600 transition hover:text-red-500 text-xl">
                   {user.name.substring(0, user.name.indexOf(" ")) || user.name}
                 </span>
               </li>
