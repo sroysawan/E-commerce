@@ -78,6 +78,7 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
+                autoComplete="off"
                 className="w-full rounded-lg p-4 pe-12 border focus:outline-none 
                 focus:ring-2 focus:ring-blue-700"
                 placeholder="Enter email"
@@ -108,6 +109,7 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
+                autoComplete="off"
                 className="w-full rounded-lg p-4 pe-12 border focus:outline-none 
                 focus:ring-2 focus:ring-blue-700"
                 placeholder="Enter password"
