@@ -66,8 +66,8 @@ const SideBarFilter = ({ isSidebarFilterOpen, toggleSideBarFilter, children }) =
     setCategorySelected(updatedCategories);
   };
 
-  console.log('categorySelected:', categorySelected)
-console.log('Type of categorySelected values:', categorySelected.map(id => typeof id))
+//   console.log('categorySelected:', categorySelected)
+// console.log('Type of categorySelected values:', categorySelected.map(id => typeof id))
 
   //อัปเดตช่วงราคาตามการเลื่อน Slider
   const handlePriceChange = (value) => {
