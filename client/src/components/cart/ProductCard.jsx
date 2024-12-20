@@ -42,8 +42,12 @@ const ProductCard = ({ item, view, loading }) => {
     }
   };
   if (loading) {
-    return <SkeletonProductCard view={view} />;
-  }
+  return (
+    <div className=" animate-pulse transition-opacity duration-500 ease-in-out">
+      <SkeletonProductCard view={view} />
+    </div>
+  );
+}
 
   return (
     <div

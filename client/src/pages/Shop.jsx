@@ -15,13 +15,12 @@ const Shop = () => {
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
   const [initialSearchCardLoad, setInitialSearchCardLoad] = useState(true); // เพิ่ม state สำหรับ SearchCard
-  const [isSidebarFilterOpen, setIsSidebarFilterOpen] = useState(false);  
+  const [isSidebarFilterOpen, setIsSidebarFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
   const loadingTimeoutRef = useRef(null);
   const dataTimeoutRef = useRef(null);
-
 
   // Calculate pagination
   const totalPages = Math.ceil(
@@ -77,16 +76,11 @@ const Shop = () => {
 
       try {
         await getProduct();
-        console.log("test");
-        // Minimum skeleton display time
-        loadingTimeoutRef.current = setTimeout(() => {
+        setTimeout(() => {
           setShowSkeleton(false);
+          setIsDataReady(true);
           setInitialSearchCardLoad(false);
-          // Add a small delay before showing the actual data
-          dataTimeoutRef.current = setTimeout(() => {
-            setIsDataReady(true);
-          }, 100);
-        }, 1000);
+        }, 500); // delay smooth
       } catch (error) {
         console.error("Error loading products:", error);
         setShowSkeleton(false);
@@ -107,18 +101,15 @@ const Shop = () => {
       setShowSkeleton(true);
       setIsDataReady(false);
       setCurrentPage(1); // Reset to first page when category changes
-      loadingTimeoutRef.current = setTimeout(() => {
+      setTimeout(() => {
         setShowSkeleton(false);
-        dataTimeoutRef.current = setTimeout(() => {
-          setIsDataReady(true);
-        }, 100);
-      }, 300); // Reduced time for filtering operations
+        setIsDataReady(true); // ข้อมูลพร้อมจะแสดง
+      }, 500); // delay ช่วงสั้นเพื่อ smooth UX
       return () => {
         cleanupTimeouts();
       };
     }
   }, [filteredProductShop]);
-
 
   const toggleSideBarFilter = () => {
     setIsSidebarFilterOpen(!isSidebarFilterOpen);
